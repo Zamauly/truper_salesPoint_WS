@@ -1,4 +1,4 @@
-# PY-A0001-encypMod
+# truper_salesPoint_WS
 this is a API REST to serve Salespoint Requests
 
 ###### Its sales app to web devices only for academy porpouses.
