@@ -1,0 +1,1 @@
+CREATE SCHEMA `truper_sales` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
