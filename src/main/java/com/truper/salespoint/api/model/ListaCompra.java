@@ -7,22 +7,31 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "lista_compra")
+public class ListaCompra {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(unique = true, name = "Id", nullable = false)
 	protected Long id;
+	
+    @ManyToOne
+    @JoinColumn(name="cliente_id")
+    private Cliente cliente;
     
-    @Column(name = "nombre", length = 64, nullable = false)
+    @Column(name = "nombre", length = 32, nullable = true)
     protected String nombre;
-
+    
+    @Column(name = "consideraciones", length = 150, nullable = false)
+    protected String consideraciones;
+    
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_registro", nullable = false)
     protected Date fechaRegistro;  
@@ -31,29 +40,36 @@ public class Cliente {
     @Column(name = "fecha_actualiza", nullable = false)
     protected Date fechaActuliza;
     
-	@Column(name = "prioridad_id", length = 64, nullable = false)
-	protected int prioridadId;
-	
 	@Column(name = "activo", nullable = false)
 	protected boolean activo;
-	
-    public Cliente() {}
-    
-	public Cliente( String nombre, Date fechaRegistro, Date fechaActuliza, int prioridadId, boolean activo) {
+
+	public ListaCompra() {}
+
+	public ListaCompra(Cliente cliente, String nombre, String consideraciones, Date fechaRegistro, Date fechaActuliza,
+			boolean activo) {
 		super();
+		this.cliente = cliente;
 		this.nombre = nombre;
+		this.consideraciones = consideraciones;
 		this.fechaRegistro = fechaRegistro;
 		this.fechaActuliza = fechaActuliza;
-		this.prioridadId = prioridadId;
-		this.activo = activo;	
-    }
-	
-    public Long getId() {
+		this.activo = activo;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public String getNombre() {
@@ -62,6 +78,14 @@ public class Cliente {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getConsideraciones() {
+		return consideraciones;
+	}
+
+	public void setConsideraciones(String consideraciones) {
+		this.consideraciones = consideraciones;
 	}
 
 	public Date getFechaRegistro() {
@@ -80,14 +104,6 @@ public class Cliente {
 		this.fechaActuliza = fechaActuliza;
 	}
 
-	public int getPrioridadId() {
-		return prioridadId;
-	}
-
-	public void setPrioridadId(int prioridadId) {
-		this.prioridadId = prioridadId;
-	}
-
 	public boolean getActivo() {
 		return activo;
 	}
@@ -95,11 +111,12 @@ public class Cliente {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
-    
-    @Override
+
+	@Override
 	public String toString() {
-		return "Cliente [ id= " +this.id +", nombre= " + this.nombre + ", fechaRegistro= " + fechaRegistro +", fechaActuliza= "
-				+ fechaActuliza +", prioridadId= " + prioridadId + ", activo=" + activo +" ]";
+		return "ListaCompra [id=" + id + ", cliente=" + cliente + ", nombre=" + nombre + ", consideraciones="
+				+ consideraciones + ", fechaRegistro=" + fechaRegistro + ", fechaActuliza=" + fechaActuliza
+				+ ", activo=" + activo + "]";
 	}
-    
+
 }

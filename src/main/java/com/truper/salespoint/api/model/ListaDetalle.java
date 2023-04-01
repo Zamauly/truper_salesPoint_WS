@@ -7,22 +7,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "lista_detalle")
+public class ListaDetalle {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(unique = true, name = "Id", nullable = false)
 	protected Long id;
+	
+    @ManyToOne
+    @JoinColumn(name="lista_compra_id", nullable = false)
+    protected ListaCompra listaCompra;
     
-    @Column(name = "nombre", length = 64, nullable = false)
-    protected String nombre;
-
+    @OneToOne
+    @JoinColumn(name = "producto_id", nullable = false)
+    protected Producto producto;
+    
+    @Column(name = "cantidad", length = 8, nullable = false)
+    protected int cantidad;
+    
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_registro", nullable = false)
     protected Date fechaRegistro;  
@@ -31,24 +42,23 @@ public class Cliente {
     @Column(name = "fecha_actualiza", nullable = false)
     protected Date fechaActuliza;
     
-	@Column(name = "prioridad_id", length = 64, nullable = false)
-	protected int prioridadId;
-	
 	@Column(name = "activo", nullable = false)
 	protected boolean activo;
-	
-    public Cliente() {}
-    
-	public Cliente( String nombre, Date fechaRegistro, Date fechaActuliza, int prioridadId, boolean activo) {
+
+	public ListaDetalle() {}
+
+	public ListaDetalle(ListaCompra listaCompra, Producto producto, int cantidad, Date fechaRegistro,
+			Date fechaActuliza, boolean activo) {
 		super();
-		this.nombre = nombre;
+		this.listaCompra = listaCompra;
+		this.producto = producto;
+		this.cantidad = cantidad;
 		this.fechaRegistro = fechaRegistro;
 		this.fechaActuliza = fechaActuliza;
-		this.prioridadId = prioridadId;
-		this.activo = activo;	
-    }
-	
-    public Long getId() {
+		this.activo = activo;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
@@ -56,12 +66,28 @@ public class Cliente {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public ListaCompra getListaCompra() {
+		return listaCompra;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setListaCompra(ListaCompra listaCompra) {
+		this.listaCompra = listaCompra;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	public Date getFechaRegistro() {
@@ -80,14 +106,6 @@ public class Cliente {
 		this.fechaActuliza = fechaActuliza;
 	}
 
-	public int getPrioridadId() {
-		return prioridadId;
-	}
-
-	public void setPrioridadId(int prioridadId) {
-		this.prioridadId = prioridadId;
-	}
-
 	public boolean getActivo() {
 		return activo;
 	}
@@ -95,11 +113,12 @@ public class Cliente {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
-    
-    @Override
+
+	@Override
 	public String toString() {
-		return "Cliente [ id= " +this.id +", nombre= " + this.nombre + ", fechaRegistro= " + fechaRegistro +", fechaActuliza= "
-				+ fechaActuliza +", prioridadId= " + prioridadId + ", activo=" + activo +" ]";
+		return "ListaDetalle [id=" + id + ", listaCompra=" + listaCompra + ", producto=" + producto + ", cantidad="
+				+ cantidad + ", fechaRegistro=" + fechaRegistro + ", fechaActuliza=" + fechaActuliza + ", activo="
+				+ activo + "]";
 	}
-    
+	
 }

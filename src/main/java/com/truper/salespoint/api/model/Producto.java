@@ -12,15 +12,21 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "productos")
+public class Producto {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(unique = true, name = "Id", nullable = false)
 	protected Long id;
+	
+    @Column(name = "clave", length = 15, nullable = false)
+    protected String clave;
     
-    @Column(name = "nombre", length = 64, nullable = false)
+    @Column(name = "descripcion", length = 150, nullable = false)
+    protected String descripcion;
+    
+    @Column(name = "nombre", length = 32, nullable = true)
     protected String nombre;
 
     @Temporal(TemporalType.DATE)
@@ -31,29 +37,48 @@ public class Cliente {
     @Column(name = "fecha_actualiza", nullable = false)
     protected Date fechaActuliza;
     
-	@Column(name = "prioridad_id", length = 64, nullable = false)
-	protected int prioridadId;
-	
+    @Column(name = "existencia", length = 8, nullable = false)
+    protected int existencia;
+    
 	@Column(name = "activo", nullable = false)
 	protected boolean activo;
+
+	public Producto() {}
 	
-    public Cliente() {}
-    
-	public Cliente( String nombre, Date fechaRegistro, Date fechaActuliza, int prioridadId, boolean activo) {
+	public Producto(String clave, String descripcion, String nombre, Date fechaRegistro, Date fechaActuliza,
+			int existencia, boolean activo) {
 		super();
+		this.clave = clave;
+		this.descripcion = descripcion;
 		this.nombre = nombre;
 		this.fechaRegistro = fechaRegistro;
 		this.fechaActuliza = fechaActuliza;
-		this.prioridadId = prioridadId;
-		this.activo = activo;	
-    }
-	
-    public Long getId() {
+		this.existencia = existencia;
+		this.activo = activo;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getClave() {
+		return clave;
+	}
+
+	public void setClave(String clave) {
+		this.clave = clave;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public String getNombre() {
@@ -80,12 +105,12 @@ public class Cliente {
 		this.fechaActuliza = fechaActuliza;
 	}
 
-	public int getPrioridadId() {
-		return prioridadId;
+	public int getExistencia() {
+		return existencia;
 	}
 
-	public void setPrioridadId(int prioridadId) {
-		this.prioridadId = prioridadId;
+	public void setExistencia(int existencia) {
+		this.existencia = existencia;
 	}
 
 	public boolean getActivo() {
@@ -95,11 +120,12 @@ public class Cliente {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
-    
-    @Override
+
+	@Override
 	public String toString() {
-		return "Cliente [ id= " +this.id +", nombre= " + this.nombre + ", fechaRegistro= " + fechaRegistro +", fechaActuliza= "
-				+ fechaActuliza +", prioridadId= " + prioridadId + ", activo=" + activo +" ]";
+		return "Producto [id=" + id + ", clave=" + clave + ", descripcion=" + descripcion + ", nombre=" + nombre
+				+ ", fechaRegistro=" + fechaRegistro + ", fechaActuliza=" + fechaActuliza + ", existencia=" + existencia
+				+ ", activo=" + activo + "]";
 	}
     
 }
