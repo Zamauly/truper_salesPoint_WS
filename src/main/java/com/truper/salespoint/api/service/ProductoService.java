@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.truper.salespoint.api.exception.ProductoNotFoundException;
 import com.truper.salespoint.api.model.Producto;
 import com.truper.salespoint.api.repository.ProductoRepository;
 
@@ -15,6 +16,10 @@ public class ProductoService {
 	
 	public ArrayList<Producto> getProductos(){
 		return (ArrayList<Producto>) productoRepository.findAll();
+	}
+	
+	public Producto getProducto(Long id){
+		return productoRepository.findById(id).orElseThrow(() -> new ProductoNotFoundException(id));
 	}
 	
 	public Producto loadProducto(Producto producto) {

@@ -20,7 +20,7 @@ public class ListaDetalle {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    @Column(unique = true, name = "Id", nullable = false)
+    @Column(unique = true, name = "id", nullable = false)
 	protected Long id;
 	
     @ManyToOne

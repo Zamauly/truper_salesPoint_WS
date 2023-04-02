@@ -3,6 +3,7 @@ package com.truper.salespoint.api.model;
 import java.util.Date;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,14 +20,15 @@ public class ListaCompra {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    @Column(unique = true, name = "Id", nullable = false)
+    @Column(unique = true, name = "id", nullable = false)
 	protected Long id;
 	
     @ManyToOne
     @JoinColumn(name="cliente_id")
+    @Embedded
     private Cliente cliente;
     
-    @Column(name = "nombre", length = 32, nullable = true)
+    @Column(name = "nombre", length = 50, nullable = true)
     protected String nombre;
     
     @Column(name = "consideraciones", length = 150, nullable = false)

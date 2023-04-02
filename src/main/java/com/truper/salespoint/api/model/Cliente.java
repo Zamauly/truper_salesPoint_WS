@@ -17,10 +17,10 @@ public class Cliente {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    @Column(unique = true, name = "Id", nullable = false)
+    @Column(unique = true, name = "id", nullable = false)
 	protected Long id;
     
-    @Column(name = "nombre", length = 64, nullable = false)
+    @Column(name = "nombre", length = 50, nullable = false)
     protected String nombre;
 
     @Temporal(TemporalType.DATE)
@@ -31,7 +31,7 @@ public class Cliente {
     @Column(name = "fecha_actualiza", nullable = false)
     protected Date fechaActuliza;
     
-	@Column(name = "prioridad_id", length = 64, nullable = false)
+	@Column(name = "prioridad_id", length = 4, nullable = false)
 	protected int prioridadId;
 	
 	@Column(name = "activo", nullable = false)
