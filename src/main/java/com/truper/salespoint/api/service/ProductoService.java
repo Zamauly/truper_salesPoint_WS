@@ -15,7 +15,7 @@ public class ProductoService {
 	ProductoRepository productoRepository;
 	
 	public ArrayList<Producto> getProductos(){
-		return (ArrayList<Producto>) productoRepository.findAll();
+		return (ArrayList<Producto>) productoRepository.findAllClean();
 	}
 	
 	public Producto getProducto(Long id){

@@ -2,20 +2,26 @@ package com.truper.salespoint.api.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "lista_detalle")
+@NamedQuery(name = "ListaDetalle.findAllClean", query = "SELECT ld FROM ListaDetalle ld WHERE ld.activo = true")
 public class ListaDetalle {
 
 	@Id
@@ -23,12 +29,16 @@ public class ListaDetalle {
     @Column(unique = true, name = "id", nullable = false)
 	protected Long id;
 	
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name="lista_compra_id", nullable = false)
+    @JsonProperty(access = Access.READ_WRITE)
+    @Embedded
     protected ListaCompra listaCompra;
     
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "producto_id", nullable = false)
+    @JsonProperty(access = Access.READ_WRITE)
+    @Embedded
     protected Producto producto;
     
     @Column(name = "cantidad", length = 8, nullable = false)

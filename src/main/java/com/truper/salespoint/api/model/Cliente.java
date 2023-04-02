@@ -1,19 +1,24 @@
 package com.truper.salespoint.api.model;
 
 import java.util.Date;
+import java.util.function.Supplier;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "cliente")
+@NamedQuery(name = "Cliente.findAllClean", query = "SELECT c FROM Cliente c WHERE c.activo = true")
 public class Cliente {
+
+	private static final String value = null;
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -36,7 +41,7 @@ public class Cliente {
 	
 	@Column(name = "activo", nullable = false)
 	protected boolean activo;
-	
+    
     public Cliente() {}
     
 	public Cliente( String nombre, Date fechaRegistro, Date fechaActuliza, int prioridadId, boolean activo) {
@@ -101,5 +106,17 @@ public class Cliente {
 		return "Cliente [ id= " +this.id +", nombre= " + this.nombre + ", fechaRegistro= " + fechaRegistro +", fechaActuliza= "
 				+ fechaActuliza +", prioridadId= " + prioridadId + ", activo=" + activo +" ]";
 	}
-    
+    public <X extends Throwable> Object orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+        if (value != null) {
+            return value;
+        } else {
+            throw exceptionSupplier.get();
+        }
+    }
+    public Cliente isActivo() {
+    	if(this.activo)
+    		return this;
+    	else return null;
+    				
+    }
 }

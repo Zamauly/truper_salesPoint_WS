@@ -7,20 +7,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "productos")
+@Table(name = "productos", uniqueConstraints = {@UniqueConstraint(columnNames  = {"clave"})})
+@NamedQuery(name = "Producto.findAllClean", query = "SELECT p FROM Producto p WHERE p.activo = true")
 public class Producto {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(unique = true, name = "id", nullable = false)
 	protected Long id;
-	
-    @Column(name = "clave", length = 15, nullable = false)
+	   
+	@Column(name = "clave", length = 15, nullable = false)
     protected String clave;
     
     @Column(name = "descripcion", length = 150, nullable = false)

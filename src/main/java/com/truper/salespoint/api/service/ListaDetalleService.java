@@ -15,7 +15,7 @@ public class ListaDetalleService {
 	ListaDetalleRepository listaDetalleRepository;
 	
 	public ArrayList<ListaDetalle> getListasDetalle(){
-		return (ArrayList<ListaDetalle>) listaDetalleRepository.findAll();
+		return (ArrayList<ListaDetalle>) listaDetalleRepository.findAllClean();
 	}
 
 	public ListaDetalle getListaDetalle(Long id){

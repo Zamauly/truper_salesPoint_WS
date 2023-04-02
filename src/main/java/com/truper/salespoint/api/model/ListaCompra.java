@@ -2,20 +2,26 @@ package com.truper.salespoint.api.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "lista_compra")
+@NamedQuery(name = "ListaCompra.findAllClean", query = "SELECT lc FROM ListaCompra lc WHERE lc.activo = true")
 public class ListaCompra {
 
 	@Id
@@ -23,8 +29,9 @@ public class ListaCompra {
     @Column(unique = true, name = "id", nullable = false)
 	protected Long id;
 	
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name="cliente_id")
+    @JsonProperty(access = Access.READ_WRITE)
     @Embedded
     private Cliente cliente;
     

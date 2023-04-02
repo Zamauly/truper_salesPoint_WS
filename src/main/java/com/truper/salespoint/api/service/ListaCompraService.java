@@ -15,7 +15,7 @@ public class ListaCompraService {
 	ListaCompraRepository listaCompraRepository;
 	
 	public ArrayList<ListaCompra> getListasCompras(){
-		return (ArrayList<ListaCompra>) listaCompraRepository.findAll();
+		return (ArrayList<ListaCompra>) listaCompraRepository.findAllClean();
 	}
 	
 	public ListaCompra getListaCompra(Long id){

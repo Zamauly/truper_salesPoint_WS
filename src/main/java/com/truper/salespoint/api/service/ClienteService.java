@@ -15,13 +15,13 @@ public class ClienteService {
 	ClienteRepository clienteRepository;
 	
 	public ArrayList<Cliente> getClientes(){
-		return (ArrayList<Cliente>) clienteRepository.findAll();
+		return (ArrayList<Cliente>) clienteRepository.findAllClean();
 	}
-	
+
 	public Cliente getCliente(Long id){
 		return clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException(id));
 	}
-	
+
 	public Cliente loadCliente(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
