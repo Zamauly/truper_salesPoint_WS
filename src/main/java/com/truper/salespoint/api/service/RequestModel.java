@@ -1,7 +1,13 @@
 package com.truper.salespoint.api.service;
 
+import jakarta.validation.constraints.NotNull;
+
 public class RequestModel<T> {
+	
+	@NotNull(message = "sistemaOrigen is required")
 	public String sistemaOrigen;
+	
+	@NotNull(message = "data type to process is required")
 	public T data;
 	
 	public RequestModel() {}

@@ -20,7 +20,10 @@ import com.truper.salespoint.api.exception.ClienteNotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.Cliente;
 import com.truper.salespoint.api.service.ClienteService;
+import com.truper.salespoint.api.service.RequestModel;
 import com.truper.salespoint.api.service.ResponseModel;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/cliente")
@@ -41,11 +44,11 @@ public class ClienteController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<ResponseModel<?>> loadCliente(@RequestBody Cliente cliente){
+	public ResponseEntity<ResponseModel<?>> loadCliente(@Valid @RequestBody RequestModel<Cliente> clienteRequest){
 		try {
 
-			cliente = clienteService.getValuedElement(cliente);
-			Cliente toSaveCliente = this.clienteService.loadCliente(cliente);
+			Cliente clienteToSave = clienteService.getValuedElement(clienteRequest.getData());
+			Cliente toSaveCliente = this.clienteService.loadCliente(clienteToSave);
 			return ResponseEntity.ok(new ResponseModel<Cliente>("OK","Se ha cargado Correctamente",toSaveCliente));
 			
 		}catch(ClienteNotFoundException err) {

@@ -19,7 +19,10 @@ import com.truper.salespoint.api.exception.ProductoNotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.ListaDetalle;
 import com.truper.salespoint.api.service.ListaDetalleService;
+import com.truper.salespoint.api.service.RequestModel;
 import com.truper.salespoint.api.service.ResponseModel;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/lista-detalle")
@@ -40,17 +43,17 @@ public class ListaDetalleController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<ResponseModel<?>> loadListaDetalle(@RequestBody ListaDetalle listaDetalle){
+	public ResponseEntity<ResponseModel<?>> loadListaDetalle(@Valid @RequestBody RequestModel<ListaDetalle> listaDetalleRequest){
 		try {
-			listaDetalle = listaDetalleService.getValuedElement(listaDetalle);
-			boolean valueProduct = listaDetalleService.verificateProduct(listaDetalle);
+			ListaDetalle listaDetalleToSave = listaDetalleService.getValuedElement(listaDetalleRequest.getData());
+			boolean valueProduct = listaDetalleService.verificateProduct(listaDetalleToSave);
 			if(!valueProduct) 
-				throw new ProductoNotFoundException(listaDetalle.getProducto().getId());
+				throw new ProductoNotFoundException(listaDetalleToSave.getProducto().getId());
 			
-			boolean valueListaCompra = listaDetalleService.verificateSellList(listaDetalle);			
+			boolean valueListaCompra = listaDetalleService.verificateSellList(listaDetalleToSave);			
 			if(!valueListaCompra) 
-				throw new ListaCompraNotFoundException(listaDetalle.getListaCompra().getId());
-			ListaDetalle newVar = this.listaDetalleService.loadListaDetalle(listaDetalle);
+				throw new ListaCompraNotFoundException(listaDetalleToSave.getListaCompra().getId());
+			ListaDetalle newVar = this.listaDetalleService.loadListaDetalle(listaDetalleToSave);
 			return ResponseEntity.ok(new ResponseModel<ListaDetalle>("OK","Se ha cargado Correctamente",newVar));
 						
 		}catch(ListaCompraNotFoundException | ProductoNotFoundException err) {

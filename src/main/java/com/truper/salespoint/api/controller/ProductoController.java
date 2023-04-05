@@ -18,7 +18,10 @@ import com.truper.salespoint.api.exception.ProductoNotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.Producto;
 import com.truper.salespoint.api.service.ProductoService;
+import com.truper.salespoint.api.service.RequestModel;
 import com.truper.salespoint.api.service.ResponseModel;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/producto")
@@ -39,11 +42,11 @@ public class ProductoController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<ResponseModel<?>> loadProducto(@RequestBody Producto producto){
+	public ResponseEntity<ResponseModel<?>> loadProducto(@Valid @RequestBody RequestModel<Producto> productoRequest){
 		try {
 
-			producto = productoService.getValuedElement(producto);
-			Producto toSaveProducto = this.productoService.loadProducto(producto);
+			Producto productoToSave = productoService.getValuedElement(productoRequest.getData());
+			Producto toSaveProducto = this.productoService.loadProducto(productoToSave);
 			return ResponseEntity.ok(new ResponseModel<Producto>("OK","Se ha cargado Correctamente",toSaveProducto));
 			
 		}catch(ProductoNotFoundException err) {

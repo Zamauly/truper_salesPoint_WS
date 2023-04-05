@@ -18,7 +18,10 @@ import com.truper.salespoint.api.exception.ClienteNotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.ListaCompra;
 import com.truper.salespoint.api.service.ListaCompraService;
+import com.truper.salespoint.api.service.RequestModel;
 import com.truper.salespoint.api.service.ResponseModel;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/lista-compra")
@@ -39,14 +42,14 @@ public class ListaCompraController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<ResponseModel<?>> loadListaCompra(@RequestBody ListaCompra listaCompra){
+	public ResponseEntity<ResponseModel<?>> loadListaCompra(@Valid @RequestBody RequestModel<ListaCompra> listaCompraRequest){
 		try {
-			listaCompra = listaCompraService.getValuedElement(listaCompra);
-			boolean valueClient = listaCompraService.verificateClient(listaCompra);
+			ListaCompra listaCompraToSave = listaCompraService.getValuedElement(listaCompraRequest.getData());
+			boolean valueClient = listaCompraService.verificateClient(listaCompraToSave);
 			if(!valueClient) 
-				throw new ClienteNotFoundException(listaCompra.getCliente().getId());
-			ListaCompra loadedListaCompra = listaCompraService.loadListaCompra(listaCompra);
-			return ResponseEntity.ok(new ResponseModel<ListaCompra>("OK","Se ha cargado Correctamente",loadedListaCompra));
+				throw new ClienteNotFoundException(listaCompraToSave.getCliente().getId());
+			ListaCompra toSaveListaCompra = listaCompraService.loadListaCompra(listaCompraToSave);
+			return ResponseEntity.ok(new ResponseModel<ListaCompra>("OK","Se ha cargado Correctamente",toSaveListaCompra));
 		}catch(ClienteNotFoundException err) {
 			_log.error(" Error at trying to load ListaCompra: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
