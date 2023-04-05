@@ -18,10 +18,11 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "lista_detalle")
-@NamedQuery(name = "ListaDetalle.findAllClean", query = "SELECT ld FROM ListaDetalle ld WHERE ld.activo = true")
+@NamedQuery(name = "ListaDetalle.findAllClean", query = "SELECT ld FROM ListaDetalle ld INNER JOIN ld.listaCompra lc INNER JOIN ld.producto p WHERE ld.activo = true AND lc.activo = true AND p.activo = true")
 public class ListaDetalle {
 
 	@Id
@@ -33,15 +34,18 @@ public class ListaDetalle {
     @JoinColumn(name="lista_compra_id", nullable = false)
     @JsonProperty(access = Access.READ_WRITE)
     @Embedded
+    @NotNull
     protected ListaCompra listaCompra;
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "producto_id", nullable = false)
     @JsonProperty(access = Access.READ_WRITE)
     @Embedded
+    @NotNull
     protected Producto producto;
     
     @Column(name = "cantidad", length = 8, nullable = false)
+    @NotNull
     protected int cantidad;
     
     @Temporal(TemporalType.DATE)

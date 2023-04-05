@@ -7,16 +7,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
+import com.truper.salespoint.api.exception.InventaryException;
 
 @Entity
 @Table(name = "productos", uniqueConstraints = {@UniqueConstraint(columnNames  = {"clave"})})
-@NamedQuery(name = "Producto.findAllClean", query = "SELECT p FROM Producto p WHERE p.activo = true")
+@NamedQuery(name = "Producto.findAllClean", query = "SELECT p FROM Producto p WHERE p.activo = true AND p.existencia > 0")
 public class Producto {
 
 	@Id
@@ -61,6 +61,17 @@ public class Producto {
 		this.activo = activo;
 	}
 
+	public boolean inventaryOperation(int adquiredQty) {
+		boolean operationResult = false;
+		if(adquiredQty > existencia) 
+			throw new InventaryException(nombre, existencia);		
+		else {
+			existencia = existencia -adquiredQty;
+			operationResult = true;
+		}
+		return operationResult;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -131,5 +142,5 @@ public class Producto {
 				+ ", fechaRegistro=" + fechaRegistro + ", fechaActuliza=" + fechaActuliza + ", existencia=" + existencia
 				+ ", activo=" + activo + "]";
 	}
-    
+	
 }

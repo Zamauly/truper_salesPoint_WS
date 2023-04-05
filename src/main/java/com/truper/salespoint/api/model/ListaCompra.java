@@ -21,7 +21,7 @@ import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "lista_compra")
-@NamedQuery(name = "ListaCompra.findAllClean", query = "SELECT lc FROM ListaCompra lc WHERE lc.activo = true")
+@NamedQuery(name = "ListaCompra.findAllClean", query = "SELECT lc FROM ListaCompra lc INNER JOIN lc.cliente c WHERE lc.activo = true AND c.activo = true")
 public class ListaCompra {
 
 	@Id

@@ -19,11 +19,26 @@ public class ClienteService {
 	}
 
 	public Cliente getCliente(Long id){
-		return clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException(id));
+		Cliente clienteToSearch = clienteRepository.findByIdExistance(id);
+		if(clienteToSearch == null)
+			throw new ClienteNotFoundException(id);
+		else
+			return clienteToSearch;
+		
 	}
 
 	public Cliente loadCliente(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
 	
+	public Cliente getValuedElement(Cliente objectToEval) {
+
+		if(objectToEval.getId() != null) {
+			Cliente clienteToUpdate = this.getCliente(objectToEval.getId());
+			if(clienteToUpdate != null)
+				objectToEval = new ServicesUtil<Cliente>(objectToEval).getObjectToUpdate(clienteToUpdate);
+
+		}
+		return objectToEval;
+	}
 }

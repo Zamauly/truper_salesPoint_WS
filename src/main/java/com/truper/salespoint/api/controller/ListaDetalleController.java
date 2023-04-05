@@ -13,51 +13,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.truper.salespoint.api.commons.Constants;
 import com.truper.salespoint.api.exception.ListaCompraNotFoundException;
 import com.truper.salespoint.api.exception.ProductoNotFoundException;
-import com.truper.salespoint.api.model.ListaCompra;
+import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.ListaDetalle;
-import com.truper.salespoint.api.model.Producto;
-import com.truper.salespoint.api.service.ListaCompraService;
 import com.truper.salespoint.api.service.ListaDetalleService;
-import com.truper.salespoint.api.service.ProductoService;
+import com.truper.salespoint.api.service.ResponseModel;
 
 @RestController
 @RequestMapping("/lista-detalle")
 public class ListaDetalleController {
 	@Autowired
 	ListaDetalleService listaDetalleService;
-	@Autowired
-	ProductoService productoService;
-	@Autowired
-	ListaCompraService listaCompraService;
 
 	private static final Logger _log = LoggerFactory.getLogger(ListaDetalleController.class);
 	
 	@GetMapping()
-	public ArrayList<ListaDetalle> getListasDetalle(){
-		return this.listaDetalleService.getListasDetalle();
+	public ResponseEntity<ResponseModel<?>> getListasDetalle(){
+		return ResponseEntity.ok(new ResponseModel<ArrayList<ListaDetalle>>("OK","Se ha listado correctamente", this.listaDetalleService.getListasDetalle()));
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ListaDetalle> getListaDetalle(@PathVariable Long id) {
-		return ResponseEntity.ok(listaDetalleService.getListaDetalle(id));		
+	public ResponseEntity<ResponseModel<?>> getListaDetalle(@PathVariable Long id) {
+		return ResponseEntity.ok(new ResponseModel<ListaDetalle>("OK","Se ha encontrado el registro", listaDetalleService.getListaDetalle(id)));
 	}
 	
 	@PostMapping()
-	public ListaDetalle loadListaDetalle(@RequestBody ListaDetalle listaDetalle){
-
-		_log.info(" Producto id por verificar"+listaDetalle.getProducto().getId());
-		Producto valuedProducto = productoService.getProducto(listaDetalle.getProducto().getId());
-		if(!valuedProducto.getActivo())
-			throw new ProductoNotFoundException(listaDetalle.getProducto().getId());
-
-		_log.info(" Lista Compra id por verificar"+listaDetalle.getListaCompra().getId());
-		ListaCompra valuedListaCompra = listaCompraService.getListaCompra(listaDetalle.getListaCompra().getId());
-		if(!valuedListaCompra.getActivo())
-			throw new ListaCompraNotFoundException(listaDetalle.getListaCompra().getId());
-		else
-			return this.listaDetalleService.loadListaDetalle(listaDetalle);
-		
+	public ResponseEntity<ResponseModel<?>> loadListaDetalle(@RequestBody ListaDetalle listaDetalle){
+		try {
+			listaDetalle = listaDetalleService.getValuedElement(listaDetalle);
+			boolean valueProduct = listaDetalleService.verificateProduct(listaDetalle);
+			if(!valueProduct) 
+				throw new ProductoNotFoundException(listaDetalle.getProducto().getId());
+			
+			boolean valueListaCompra = listaDetalleService.verificateSellList(listaDetalle);			
+			if(!valueListaCompra) 
+				throw new ListaCompraNotFoundException(listaDetalle.getListaCompra().getId());
+			ListaDetalle newVar = this.listaDetalleService.loadListaDetalle(listaDetalle);
+			return ResponseEntity.ok(new ResponseModel<ListaDetalle>("OK","Se ha cargado Correctamente",newVar));
+						
+		}catch(ListaCompraNotFoundException | ProductoNotFoundException err) {
+			_log.error(" Error at trying to load ListaDetalle: "+err.getMessage());
+			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar Lista detalle ",responseExp));
+		} 
+				
 	}
 }

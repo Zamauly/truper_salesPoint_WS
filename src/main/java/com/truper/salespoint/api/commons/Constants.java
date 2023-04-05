@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class Constants {
 	
 	public static final ArrayList<String> REQUEST_EXCEPTIONS = new ArrayList<String>(
-		    Arrays.asList("ClienteNotFound", "ProductoNotFound", "ListaCompraNotFound", "ListaDetalleNotFound"));
+		    Arrays.asList("ClienteNotFound", "ProductoNotFound", "ListaCompraNotFound", "ListaDetalleNotFound", "InventaryException"));
     
 	public final static String validateException(String exceptionName) {
 		Iterator<String> requestExceptions = REQUEST_EXCEPTIONS.iterator();
