@@ -2,8 +2,6 @@ package com.truper.salespoint.api.service;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +10,8 @@ import com.truper.salespoint.api.model.ListaCompra;
 import com.truper.salespoint.api.model.ListaDetalle;
 import com.truper.salespoint.api.model.Producto;
 import com.truper.salespoint.api.repository.ListaDetalleRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ListaDetalleService {
@@ -41,13 +41,19 @@ public class ListaDetalleService {
 		return listaDetalleRepository.save(listaDetalle);
 	}
 	
+	@Transactional
+	public int deleteProducto(Long id) {
+		return listaDetalleRepository.logicDelete(id);
+	}
+	
 	public ListaDetalle getValuedElement(ListaDetalle objectToEval) {
 
 		if(objectToEval.getId() != null) {
 			ListaDetalle listaDetalleToUpdate = this.getListaDetalle(objectToEval.getId());
-			if(listaDetalleToUpdate != null)
+			if(listaDetalleToUpdate != null) {
 				objectToEval = new ServicesUtil<ListaDetalle>(objectToEval).getObjectToUpdate(listaDetalleToUpdate);
-
+				objectToEval.setFechaRegistro(listaDetalleToUpdate.getFechaRegistro());
+			}
 		}
 		return objectToEval;
 	}

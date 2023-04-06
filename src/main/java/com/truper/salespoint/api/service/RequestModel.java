@@ -1,5 +1,6 @@
 package com.truper.salespoint.api.service;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 public class RequestModel<T> {
@@ -12,7 +13,7 @@ public class RequestModel<T> {
 	
 	public RequestModel() {}
 	
-	public RequestModel(String sistemaOrigen, T data) {
+	public RequestModel(String sistemaOrigen, @Valid  T data) {
 		super();
 		this.sistemaOrigen = sistemaOrigen;
 		this.data = data;

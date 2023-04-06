@@ -9,6 +9,8 @@ import com.truper.salespoint.api.exception.ClienteNotFoundException;
 import com.truper.salespoint.api.model.Cliente;
 import com.truper.salespoint.api.repository.ClienteRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ClienteService {
 	@Autowired
@@ -31,13 +33,19 @@ public class ClienteService {
 		return clienteRepository.save(cliente);
 	}
 	
-	public Cliente getValuedElement(Cliente objectToEval) {
+	@Transactional
+	public int deleteCliente(Long id) {
+		return clienteRepository.logicDelete(id);
+	}
+	
+	public Cliente getValuedElement(  Cliente objectToEval) {
 
 		if(objectToEval.getId() != null) {
 			Cliente clienteToUpdate = this.getCliente(objectToEval.getId());
-			if(clienteToUpdate != null)
+			if(clienteToUpdate != null) {
 				objectToEval = new ServicesUtil<Cliente>(objectToEval).getObjectToUpdate(clienteToUpdate);
-
+				objectToEval.setFechaRegistro(clienteToUpdate.getFechaRegistro());
+			}
 		}
 		return objectToEval;
 	}

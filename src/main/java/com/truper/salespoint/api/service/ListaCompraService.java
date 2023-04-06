@@ -10,6 +10,8 @@ import com.truper.salespoint.api.model.Cliente;
 import com.truper.salespoint.api.model.ListaCompra;
 import com.truper.salespoint.api.repository.ListaCompraRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ListaCompraService {
 	@Autowired
@@ -34,13 +36,19 @@ public class ListaCompraService {
 		return listaCompraRepository.save(listaCompra);
 	}
 	
+	@Transactional
+	public int deleteProducto(Long id) {
+		return listaCompraRepository.logicDelete(id);
+	}
+	
 	public ListaCompra getValuedElement(ListaCompra objectToEval) {
 
 		if(objectToEval.getId() != null) {
 			ListaCompra listaCompraToUpdate = this.getListaCompra(objectToEval.getId());
-			if(listaCompraToUpdate != null)
+			if(listaCompraToUpdate != null) {
 				objectToEval = new ServicesUtil<ListaCompra>(objectToEval).getObjectToUpdate(listaCompraToUpdate);
-
+				objectToEval.setFechaRegistro(listaCompraToUpdate.getFechaRegistro());
+			}
 		}
 		return objectToEval;
 	}

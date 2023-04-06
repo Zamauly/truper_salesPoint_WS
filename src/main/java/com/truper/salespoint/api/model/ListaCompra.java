@@ -1,10 +1,9 @@
 package com.truper.salespoint.api.model;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -16,13 +15,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+//@JsonIgnoreProperties({"fechaActuliza","fechaRegistro"})
 @Entity
 @Table(name = "lista_compra")
-@NamedQuery(name = "ListaCompra.findAllClean", query = "SELECT lc FROM ListaCompra lc INNER JOIN lc.cliente c WHERE lc.activo = true AND c.activo = true")
-public class ListaCompra {
+@NamedQuery(name = "ListaCompra.findAllClean", query = "SELECT ls FROM ListaCompra ls INNER JOIN ls.cliente c WHERE ls.activo = true AND c.activo = true")
+public class ListaCompra extends ParentModel {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -33,36 +34,25 @@ public class ListaCompra {
     @JoinColumn(name="cliente_id")
     @JsonProperty(access = Access.READ_WRITE)
     @Embedded
+    @NotNull(message = "cliente.id is required")
     private Cliente cliente;
     
     @Column(name = "nombre", length = 50, nullable = true)
+    @NotBlank(message = "nombre is required")
+    @Size(min = 3, max = 31, message = "nombre must be string length must be between 3 and 31")
     protected String nombre;
     
     @Column(name = "consideraciones", length = 150, nullable = false)
+	@Nullable
     protected String consideraciones;
-    
-    @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_registro", nullable = false)
-    protected Date fechaRegistro;  
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_actualiza", nullable = false)
-    protected Date fechaActuliza;
-    
-	@Column(name = "activo", nullable = false)
-	protected boolean activo;
 
 	public ListaCompra() {}
 
-	public ListaCompra(Cliente cliente, String nombre, String consideraciones, Date fechaRegistro, Date fechaActuliza,
-			boolean activo) {
+	public ListaCompra(Cliente cliente, String nombre, String consideraciones) {
 		super();
 		this.cliente = cliente;
 		this.nombre = nombre;
 		this.consideraciones = consideraciones;
-		this.fechaRegistro = fechaRegistro;
-		this.fechaActuliza = fechaActuliza;
-		this.activo = activo;
 	}
 
 	public Long getId() {
@@ -95,30 +85,6 @@ public class ListaCompra {
 
 	public void setConsideraciones(String consideraciones) {
 		this.consideraciones = consideraciones;
-	}
-
-	public Date getFechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setFechaRegistro(Date fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-
-	public Date getFechaActuliza() {
-		return fechaActuliza;
-	}
-
-	public void setFechaActuliza(Date fechaActuliza) {
-		this.fechaActuliza = fechaActuliza;
-	}
-
-	public boolean getActivo() {
-		return activo;
-	}
-
-	public void setActivo(boolean activo) {
-		this.activo = activo;
 	}
 
 	@Override

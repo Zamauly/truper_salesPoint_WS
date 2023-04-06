@@ -10,36 +10,44 @@ import com.truper.salespoint.api.exception.InventaryException;
 import com.truper.salespoint.api.model.Producto;
 import com.truper.salespoint.api.repository.ProductoRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ProductoService {
 	@Autowired
 	ProductoRepository productoRepository;
-	
-	public ArrayList<Producto> getProductos(){
+
+	public ArrayList<Producto> getProductos() {
 		return (ArrayList<Producto>) productoRepository.findAllClean();
 	}
-	
-	public Producto getProducto(Long id){
+
+	public Producto getProducto(Long id) {
 		Producto productToSearch = productoRepository.findByIdExistance(id);
-		if(productToSearch == null)
+		if (productToSearch == null)
 			throw new ProductoNotFoundException(id);
-		else if(productToSearch.getExistencia() < 1)
+		else if (productToSearch.getExistencia() < 1)
 			throw new InventaryException(productToSearch.getNombre(), productToSearch.getExistencia());
 		else
 			return productToSearch;
 	}
-	
+
 	public Producto loadProducto(Producto producto) {
 		return productoRepository.save(producto);
 	}
-	
+
+	@Transactional
+	public int deleteProducto(Long id) {
+		return productoRepository.logicDelete(id);
+	}
+
 	public Producto getValuedElement(Producto objectToEval) {
 
-		if(objectToEval.getId() != null) {
+		if (objectToEval.getId() != null) {
 			Producto productoToUpdate = this.getProducto(objectToEval.getId());
-			if(productoToUpdate != null)
+			if (productoToUpdate != null) {
 				objectToEval = new ServicesUtil<Producto>(objectToEval).getObjectToUpdate(productoToUpdate);
-
+				objectToEval.setFechaRegistro(productoToUpdate.getFechaRegistro());
+			}
 		}
 		return objectToEval;
 	}

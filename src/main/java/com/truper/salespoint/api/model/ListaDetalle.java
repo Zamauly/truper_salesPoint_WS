@@ -18,12 +18,16 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+//@JsonIgnoreProperties({"fechaActuliza","fechaRegistro"})
 @Entity
 @Table(name = "lista_detalle")
 @NamedQuery(name = "ListaDetalle.findAllClean", query = "SELECT ld FROM ListaDetalle ld INNER JOIN ld.listaCompra lc INNER JOIN ld.producto p WHERE ld.activo = true AND lc.activo = true AND p.activo = true")
-public class ListaDetalle {
+public class ListaDetalle extends ParentModel {
 
 	@Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -34,42 +38,30 @@ public class ListaDetalle {
     @JoinColumn(name="lista_compra_id", nullable = false)
     @JsonProperty(access = Access.READ_WRITE)
     @Embedded
-    @NotNull
+    @NotNull(message = "listaCompra.id is required")
     protected ListaCompra listaCompra;
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "producto_id", nullable = false)
     @JsonProperty(access = Access.READ_WRITE)
     @Embedded
-    @NotNull
+    @NotNull(message = "producto.id is required")
     protected Producto producto;
     
-    @Column(name = "cantidad", length = 8, nullable = false)
-    @NotNull
+    @Column(name = "cantidad", length = 6, nullable = false)
+	@Digits(fraction = 0, integer = 4, message = "cantidad  must be integer or parseable")
+	@Min(value = 0,message="cantidad must be at less 0")
+	@Max(value = 9999,message="cantidad must be at max 999")
+    @NotNull(message = "cantidad is required")
     protected int cantidad;
     
-    @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_registro", nullable = false)
-    protected Date fechaRegistro;  
+    public ListaDetalle() {}
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_actualiza", nullable = false)
-    protected Date fechaActuliza;
-    
-	@Column(name = "activo", nullable = false)
-	protected boolean activo;
-
-	public ListaDetalle() {}
-
-	public ListaDetalle(ListaCompra listaCompra, Producto producto, int cantidad, Date fechaRegistro,
-			Date fechaActuliza, boolean activo) {
+	public ListaDetalle(ListaCompra listaCompra, Producto producto, int cantidad ) {
 		super();
 		this.listaCompra = listaCompra;
 		this.producto = producto;
 		this.cantidad = cantidad;
-		this.fechaRegistro = fechaRegistro;
-		this.fechaActuliza = fechaActuliza;
-		this.activo = activo;
 	}
 
 	public Long getId() {
