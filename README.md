@@ -10,6 +10,8 @@ this is an API REST to serve Salespoint Requests
 
 -[H2 Database](https://www.h2database.com/html/main.html) 2.1.214
 
+-[JJWT](https://javadoc.io/doc/io.jsonwebtoken/jjwt-api/latest/index.html) 0.9.1
+
 ## Before To Start
 Clone this project and run `mvnw clean install` if its necesary to update all dependencies. 
 
