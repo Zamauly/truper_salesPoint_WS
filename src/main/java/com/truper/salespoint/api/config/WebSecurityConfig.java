@@ -14,6 +14,7 @@ import com.truper.salespoint.api.filter.AuthenticationTokenFilter;
 import com.truper.salespoint.api.service.system.ActiveUserDetailsServiceImpl;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +28,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 	    prePostEnabled = true)
 public class WebSecurityConfig {
 
+	public static final AntPathRequestMatcher[] WHITE_LIST_URLS = {new AntPathRequestMatcher("/api/test/**"),new AntPathRequestMatcher("/api/auth/**")};
+	
 	  @Autowired
 	  ActiveUserDetailsServiceImpl userDetailsService;
 
@@ -60,18 +63,29 @@ public class WebSecurityConfig {
 	  
 	  @Bean
 	  WebSecurityCustomizer webSecurityCustomizer() {
-	    return (web) -> web.ignoring().requestMatchers("/js/**", "/images/**","/h2-console/**"); 
+		  AntPathRequestMatcher[] IGNORE_LIST_URLS = {new AntPathRequestMatcher("/h2-console/**"),new AntPathRequestMatcher("/js/***"),new AntPathRequestMatcher("/images/***")};
+	    return (web) -> web.ignoring().requestMatchers(IGNORE_LIST_URLS); 
 	  }
 	  
 	  @Bean
 	   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		  
-		    http.cors().and().csrf().disable().exceptionHandling()
-		    		.authenticationEntryPoint(unauthorizedHandler).and().sessionManagement()
-		    		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		    		.authorizeHttpRequests().requestMatchers("/h2-console/**").permitAll()
-		    		.requestMatchers("/api/auth/**").permitAll()
-		    		.anyRequest().authenticated();
+		    http
+		    		.cors()
+		    		.and()
+		    		.csrf()
+		    		.disable()
+		    		.exceptionHandling()
+		    		.authenticationEntryPoint(unauthorizedHandler)
+		    		.and()
+		    		.sessionManagement()
+		    		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		    		.and()
+		    		.authorizeHttpRequests()
+		    		.requestMatchers(WHITE_LIST_URLS)
+		    		.permitAll()
+		    		.anyRequest()
+		    		.authenticated();
 		    
 		    http.authenticationProvider(authenticationProvider());
 	
