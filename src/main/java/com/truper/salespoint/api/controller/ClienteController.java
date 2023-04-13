@@ -29,7 +29,7 @@ import com.truper.salespoint.api.service.ResponseModel;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/api/cliente")
 public class ClienteController {
 	@Autowired
 	ClienteService clienteService;

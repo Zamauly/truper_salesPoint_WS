@@ -28,7 +28,7 @@ import com.truper.salespoint.api.service.ResponseModel;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/lista-detalle")
+@RequestMapping("/api/lista-detalle")
 public class ListaDetalleController {
 	@Autowired
 	ListaDetalleService listaDetalleService;

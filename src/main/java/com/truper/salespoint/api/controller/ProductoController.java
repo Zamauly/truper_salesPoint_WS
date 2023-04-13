@@ -26,7 +26,7 @@ import com.truper.salespoint.api.service.ResponseModel;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/producto")
+@RequestMapping("/api/producto")
 public class ProductoController {
 	@Autowired
 	ProductoService productoService;

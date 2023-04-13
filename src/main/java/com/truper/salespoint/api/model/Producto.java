@@ -29,7 +29,7 @@ public class Producto extends ParentModel {
     @Column(unique = true, name = "id", nullable = false)
 	protected Long id;
 	   
-	@Column(name = "clave", length = 15, nullable = false)
+	@Column(name = "clave", length = 15, nullable = false, unique = true)
 	@NotBlank(message = "clave is required")
     @Size(min = 3, max = 49, message = "nombre length must be between 3 and 15")
     protected String clave;

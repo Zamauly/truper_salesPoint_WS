@@ -27,7 +27,7 @@ import com.truper.salespoint.api.service.ResponseModel;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/lista-compra")
+@RequestMapping("/api/lista-compra")
 public class ListaCompraController {
 	@Autowired
 	ListaCompraService listaCompraService;
