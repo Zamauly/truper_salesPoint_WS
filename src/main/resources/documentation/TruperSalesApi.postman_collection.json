@@ -7,18 +7,97 @@
 	},
 	"item": [
 		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUpUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"aru dev\",\r\n    \"email\" : \"aru@dev.com\",\r\n    \"password\" : \"newpydafadeahh\",\r\n    \"role\" : [\"admin\",\"user\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LogInUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"aru dev\",\r\n    \"password\" : \"newpydafadeahh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "GetClientes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDExNjgwLCJleHAiOjE2ODE0OTgwODB9.iDjbArH7mNy9R9YWoSiFGqhofk-KIfpq08IMbrMRgIZGlt7TS-AxgBIzkONFKMkO-kbp5yBFs85MfeiaEoYtGQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
 				"url": {
-					"raw": "http://localhost:8080/cliente",
+					"raw": "http://localhost:8080/api/cliente",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"cliente"
 					]
 				}
@@ -29,7 +108,13 @@
 			"name": "PostClientes",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDExNjgwLCJleHAiOjE2ODE0OTgwODB9.iDjbArH7mNy9R9YWoSiFGqhofk-KIfpq08IMbrMRgIZGlt7TS-AxgBIzkONFKMkO-kbp5yBFs85MfeiaEoYtGQ",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"sistemaOrigen\" : \"postman\",\r\n    \"data\" :{\r\n        \"nombre\": \"Paco Dev\",\r\n        \"prioridadId\":\"2\",\r\n        \"activo\": \"true\"\r\n    }\r\n}",
@@ -40,13 +125,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/cliente",
+					"raw": "http://localhost:8080/api/cliente",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"cliente"
 					]
 				}
@@ -57,7 +143,13 @@
 			"name": "PutClientes",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDExNjgwLCJleHAiOjE2ODE0OTgwODB9.iDjbArH7mNy9R9YWoSiFGqhofk-KIfpq08IMbrMRgIZGlt7TS-AxgBIzkONFKMkO-kbp5yBFs85MfeiaEoYtGQ",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"sistemaOrigen\" : \"postman\",\r\n    \"data\" :{\r\n        \"nombre\": \"Paco Dev0l\",\r\n        \"prioridadId\": 3,\r\n        \"activo\": true\r\n    }\r\n}",
@@ -68,13 +160,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/cliente/3",
+					"raw": "http://localhost:8080/api/cliente/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"cliente",
 						"3"
 					]
@@ -86,15 +179,22 @@
 			"name": "DeleteCliente",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDExNjgwLCJleHAiOjE2ODE0OTgwODB9.iDjbArH7mNy9R9YWoSiFGqhofk-KIfpq08IMbrMRgIZGlt7TS-AxgBIzkONFKMkO-kbp5yBFs85MfeiaEoYtGQ",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/cliente/3",
+					"raw": "http://localhost:8080/api/cliente/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"cliente",
 						"3"
 					]
@@ -106,17 +206,24 @@
 			"name": "GetProductos",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/producto/3",
+					"raw": "http://localhost:8080/api/producto/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"producto",
-						"3"
+						"2"
 					]
 				}
 			},
@@ -126,7 +233,13 @@
 			"name": "PostProductos",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"sistemaOrigen\" : \"postman\",\r\n    \"data\":{\r\n        \"clave\": \"TRP-0AF1E\",\r\n        \"descripcion\": \"Juego de Desarmadores multi usos con mango 5pzs\",\r\n        \"nombre\": \"Desarmadores Varios 5pzs\",\r\n        \"existencia\": \"3\",\r\n        \"activo\": true\r\n    }\r\n}",
@@ -137,13 +250,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/producto",
+					"raw": "http://localhost:8080/api/producto",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"producto"
 					]
 				}
@@ -154,7 +268,13 @@
 			"name": "PutProductos",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"sistemaOrigen\" : \"postman\",\r\n    \"data\":{\r\n        \"clave\": \"TRP-0AF3F\",\r\n        \"descripcion\": \"Juego de Desarmadores multi usos con mango 5pzs\",\r\n        \"nombre\": \"Desarmadores Varios 5pzs\",\r\n        \"existencia\": 10,\r\n        \"activo\": true\r\n    }\r\n}",
@@ -165,13 +285,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/producto/3",
+					"raw": "http://localhost:8080/api/producto/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"producto",
 						"3"
 					]
@@ -183,15 +304,22 @@
 			"name": "DeleteProducto",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/producto/3",
+					"raw": "http://localhost:8080/api/producto/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"producto",
 						"3"
 					]
@@ -203,15 +331,22 @@
 			"name": "GetListaCompra",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/lista-compra",
+					"raw": "http://localhost:8080/api/lista-compra",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"lista-compra"
 					]
 				}
@@ -222,7 +357,13 @@
 			"name": "PostListaCompra",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"sistemaOrigen\": \"postman\",\r\n    \"data\": {\r\n        \"cliente\": {\r\n            \"id\": 2\r\n        },\r\n        \"nombre\": true,\r\n        \"consideraciones\": \"Entregar a encargado en tienda \\\"Cosme Fulanito\\\"\",\r\n        \"fechaRegistro\": \"2023-04-03\",\r\n        \"fechaActuliza\": \"2023-04-03\",\r\n        \"activo\": \"true\"\r\n    }\r\n}",
@@ -233,13 +374,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/lista-compra",
+					"raw": "http://localhost:8080/api/lista-compra",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"lista-compra"
 					]
 				}
@@ -250,7 +392,13 @@
 			"name": "PutListaCompra",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"sistemaOrigen\": \"postman\",\r\n    \"data\": {\r\n        \"cliente\": {\r\n            \"id\": 1\r\n        },\r\n        \"nombre\": \"Lista Semanal\",\r\n        \"consideraciones\": \"Entregar a encargado en tienda \\\"Cosme None\\\"\",\r\n        \"fechaRegistro\": \"2023-04-03\",\r\n        \"fechaActuliza\": \"2023-04-03\",\r\n        \"activo\": true\r\n    }\r\n}",
@@ -261,13 +409,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/lista-compra/4",
+					"raw": "http://localhost:8080/api/lista-compra/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"lista-compra",
 						"4"
 					]
@@ -279,15 +428,22 @@
 			"name": "DeleteListaCompra",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/lista-compra/4",
+					"raw": "http://localhost:8080/api/lista-compra/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"lista-compra",
 						"4"
 					]
@@ -299,17 +455,23 @@
 			"name": "GetListaDetalle",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/lista-detalle/7",
+					"raw": "http://localhost:8080/api/lista-detalle",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"lista-detalle",
-						"7"
+						"api",
+						"lista-detalle"
 					]
 				}
 			},
@@ -319,7 +481,13 @@
 			"name": "PostListaDetalle",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"sistemaOrigen\": \"postman\",\r\n    \"data\": {\r\n        \"listaCompra\": {\r\n            \"id\": 3\r\n        },\r\n        \"producto\": {\r\n            \"id\": 2\r\n        },\r\n        \"fechaRegistro\": \"2023-04-04\",\r\n        \"fechaActuliza\": \"2023-04-04\",\r\n        \"activo\": true\r\n    }\r\n}",
@@ -330,13 +498,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/lista-detalle",
+					"raw": "http://localhost:8080/api/lista-detalle",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"lista-detalle"
 					]
 				}
@@ -347,7 +516,13 @@
 			"name": "PutListaDetalle",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"sistemaOrigen\": \"postman\",\r\n    \"data\": {\r\n        \"listaCompra\": {\r\n            \"id\": 3\r\n        },\r\n        \"producto\": {\r\n            \"id\": 1\r\n        },\r\n        \"cantidad\": 10,\r\n        \"fechaRegistro\": \"2023-04-01\",\r\n        \"fechaActuliza\": \"2023-04-01\",\r\n        \"activo\": true\r\n    }\r\n}",
@@ -358,13 +533,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/lista-detalle/7",
+					"raw": "http://localhost:8080/api/lista-detalle/7",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"lista-detalle",
 						"7"
 					]
@@ -376,15 +552,22 @@
 			"name": "DeleteListaDetalle",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/lista-detalle/7",
+					"raw": "http://localhost:8080/api/lista-detalle/7",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"lista-detalle",
 						"7"
 					]
