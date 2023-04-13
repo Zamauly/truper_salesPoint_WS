@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig {
 
 	public static final AntPathRequestMatcher[] WHITE_LIST_URLS = {new AntPathRequestMatcher("/api/test/**"),new AntPathRequestMatcher("/api/auth/**")};
+	public static final AntPathRequestMatcher[] IGNORE_LIST_URLS = {new AntPathRequestMatcher("/h2-console/**"),new AntPathRequestMatcher("/js/***"),new AntPathRequestMatcher("/images/***")};
 	
 	  @Autowired
 	  ActiveUserDetailsServiceImpl userDetailsService;
@@ -63,7 +64,6 @@ public class WebSecurityConfig {
 	  
 	  @Bean
 	  WebSecurityCustomizer webSecurityCustomizer() {
-		  AntPathRequestMatcher[] IGNORE_LIST_URLS = {new AntPathRequestMatcher("/h2-console/**"),new AntPathRequestMatcher("/js/***"),new AntPathRequestMatcher("/images/***")};
 	    return (web) -> web.ignoring().requestMatchers(IGNORE_LIST_URLS); 
 	  }
 	  
