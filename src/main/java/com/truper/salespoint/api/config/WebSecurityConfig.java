@@ -60,7 +60,7 @@ public class WebSecurityConfig {
 	  
 	  @Bean
 	  WebSecurityCustomizer webSecurityCustomizer() {
-	    return (web) -> web.ignoring().requestMatchers("/js/**", "/images/**"); 
+	    return (web) -> web.ignoring().requestMatchers("/js/**", "/images/**","/h2-console/**"); 
 	  }
 	  
 	  @Bean
@@ -69,7 +69,8 @@ public class WebSecurityConfig {
 		    http.cors().and().csrf().disable().exceptionHandling()
 		    		.authenticationEntryPoint(unauthorizedHandler).and().sessionManagement()
 		    		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		    		.authorizeRequests().requestMatchers("/api/auth/**").permitAll()
+		    		.authorizeHttpRequests().requestMatchers("/h2-console/**").permitAll()
+		    		.requestMatchers("/api/auth/**").permitAll()
 		    		.anyRequest().authenticated();
 		    
 		    http.authenticationProvider(authenticationProvider());

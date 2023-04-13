@@ -29,15 +29,19 @@ public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint {
 			AuthenticationException authException) throws IOException, ServletException {
 		_log.error("Unauthorized error: {} con nombred de superclase {} y nombre de clase {} ", authException.getMessage(),
 				authException.getClass().getSuperclass().getName(),authException.getClass().getName());
+		
 		ResponseException responseExp = new ResponseException(Constants.validateException(authException.getClass().getSuperclass().getName()),authException.getMessage());	    
 	    Gson gson = new Gson();
-		String userJsonString = gson.toJson(new ResponseModel<ResponseException>("ERROR"," Error de autenticacion. ",responseExp));
+		
+	    String userJsonString = gson.toJson(new ResponseModel<ResponseException>("ERROR"," Error de autenticacion. ",responseExp));
 		response.setStatus( HttpServletResponse.SC_UNAUTHORIZED );
+		
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         out.print(userJsonString);
         out.flush();
+        out.close();
         
 	}
 	
