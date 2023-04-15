@@ -36,12 +36,12 @@ public class ClienteController {
 	
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<ResponseModel<?>> getClientes(){
-		return ResponseEntity.ok(new ResponseModel<ArrayList<Cliente>>("OK","Se ha listado correctamente",this.clienteService.getClientes()));
+		return ResponseEntity.ok(new ResponseModel<ArrayList<Cliente>>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"), this.clienteService.getClientes()));
 	}
 	
 	@GetMapping(path="/{id}", produces = "application/json")
 	public ResponseEntity<ResponseModel<?>> getCliente(@PathVariable Long id) {
-		return ResponseEntity.ok(new ResponseModel<Cliente>("OK","Se ha listado correctamente",clienteService.getCliente(id)));		
+		return ResponseEntity.ok(new ResponseModel<Cliente>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"), clienteService.getCliente(id)));		
 	}
 	
 	@PostMapping(produces = "application/json")
@@ -50,12 +50,12 @@ public class ClienteController {
 			
 			Cliente clienteToSave = clienteService.getValuedElement(clienteRequest.getData());
 			Cliente toSaveCliente = this.clienteService.loadCliente(clienteToSave);
-			return ResponseEntity.ok(new ResponseModel<Cliente>("OK","Se ha cargado Correctamente",toSaveCliente));
+			return ResponseEntity.ok(new ResponseModel<Cliente>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveCliente));
 			
 		}catch(NotFoundException err) {
 			_log.error(" Error at trying to load Cliente: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar Cliente ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_ADD"),responseExp));
 		}
 	}
 	
@@ -63,14 +63,14 @@ public class ClienteController {
 	public ResponseEntity<ResponseModel<?>> updateCliente(@PathVariable(value = "id") Long id, @Valid @RequestBody RequestModel<Cliente> clienteRequest){
 		try {
 			clienteRequest.getData().setId(id);
-			Cliente productoToSave = clienteService.getValuedElement(clienteRequest.getData());
-			final  Cliente toSaveProducto = this.clienteService.loadCliente(productoToSave);
-			return ResponseEntity.ok(new ResponseModel<Cliente>("OK","Se ha cargado Correctamente",toSaveProducto));
+			Cliente clienteToSave = clienteService.getValuedElement(clienteRequest.getData());
+			final  Cliente toSaveCliente = this.clienteService.loadCliente(clienteToSave);
+			return ResponseEntity.ok(new ResponseModel<Cliente>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveCliente));
 			
 		}catch(NotFoundException err) {
 			_log.error(" Error at trying to update Cliente: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al actualizar Producto ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_UPDATE"), responseExp));
 		}
 		
 	}
@@ -81,14 +81,14 @@ public class ClienteController {
 			int varToCheck = clienteService.deleteCliente(id);
 			_log.info(" Result at trying to delete : "+varToCheck);
 			if(varToCheck > 0)
-				return ResponseEntity.ok(new ResponseModel<Object>("OK","Se ha eliminado Correctamente",null));
+				return ResponseEntity.ok(new ResponseModel<Object>(Constants._OK,Constants.BUSINESS_MSG.get("DELETE"),null));
 			else
-				return ResponseEntity.internalServerError().body(new ResponseModel<Object>("Error","No Se ha eliminado Correctamente",null));
+				return ResponseEntity.internalServerError().body(new ResponseModel<Object>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_PROCESS"),null));
 			
 		}catch(NotFoundException err) {
-			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
+			_log.error(" Error at trying to Detele Cliente: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al eliminar Cliente ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_EXCEPTION"),responseExp));
 		}
 	}
 }

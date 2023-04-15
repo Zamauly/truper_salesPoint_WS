@@ -43,7 +43,7 @@ public class ListaDetalleService {
 	}
 	
 	@Transactional
-	public int deleteProducto(Long id) {
+	public int deleteListaDetalle(Long id) {
 		return listaDetalleRepository.logicDelete(id);
 	}
 	

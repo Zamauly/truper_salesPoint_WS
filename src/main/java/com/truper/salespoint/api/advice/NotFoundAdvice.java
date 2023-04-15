@@ -21,7 +21,7 @@ public class NotFoundAdvice {
 	  ResponseModel<ResponseException> clienteNotFoundHandler(NotFoundException ex) {
 		
 		ResponseException responseExp = new ResponseException(Constants.validateException(ex.getClass().getName()),ex.getMessage());
-	    return new ResponseModel<ResponseException>("ERROR"," Error de existencia. ",responseExp);
+	    return new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_FOUND"),responseExp);
 	  }
 	  
 }

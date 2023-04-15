@@ -35,12 +35,12 @@ public class ProductoController {
 	
 	@GetMapping()
 	public ResponseEntity<ResponseModel<?>> getProductos(){
-		return ResponseEntity.ok(new ResponseModel<ArrayList<Producto>>("OK","Se ha listado correctamente",this.productoService.getProductos()));
+		return ResponseEntity.ok(new ResponseModel<ArrayList<Producto>>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"),this.productoService.getProductos()));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ResponseModel<?>> getProducto(@PathVariable Long id) {
-		return ResponseEntity.ok(new ResponseModel<Producto>("OK","Se ha listado correctamente",productoService.getProducto(id)));		
+		return ResponseEntity.ok(new ResponseModel<Producto>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"),productoService.getProducto(id)));		
 	}
 	
 	@PostMapping()
@@ -49,12 +49,12 @@ public class ProductoController {
 
 			Producto productoToSave = productoService.getValuedElement(productoRequest.getData());
 			final Producto toSaveProducto = this.productoService.loadProducto(productoToSave);
-			return ResponseEntity.ok(new ResponseModel<Producto>("OK","Se ha cargado Correctamente",toSaveProducto));
+			return ResponseEntity.ok(new ResponseModel<Producto>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveProducto));
 			
 		}catch(NotFoundException err) {
 			_log.error(" Error at trying to load Prodcuto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar Producto ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_ADD"),responseExp));
 		}
 	}
 	
@@ -64,12 +64,12 @@ public class ProductoController {
 			productoRequest.getData().setId(id);
 			Producto productoToSave = productoService.getValuedElement(productoRequest.getData());
 			final  Producto toSaveProducto = this.productoService.loadProducto(productoToSave);
-			return ResponseEntity.ok(new ResponseModel<Producto>("OK","Se ha cargado Correctamente",toSaveProducto));
+			return ResponseEntity.ok(new ResponseModel<Producto>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveProducto));
 			
 		}catch(NotFoundException err) {
-			_log.error(" Error at trying to update Cliente: "+err.getMessage());
+			_log.error(" Error at trying to update Producto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al actualizar Producto ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_UPDATE"),responseExp));
 		}
 	}
 	
@@ -79,13 +79,13 @@ public class ProductoController {
 			int varToCheck = productoService.deleteProducto(id);
 			_log.info(" Result at trying to delete : "+varToCheck);
 			if(varToCheck > 0)
-				return ResponseEntity.ok(new ResponseModel<Object>("OK","Se ha eliminado Correctamente",null));
+				return ResponseEntity.ok(new ResponseModel<Object>(Constants._OK,Constants.BUSINESS_MSG.get("DELETE"),null));
 			else
-				return ResponseEntity.internalServerError().body(new ResponseModel<Object>("Error","No Se ha eliminado Correctamente",null));
+				return ResponseEntity.internalServerError().body(new ResponseModel<Object>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_PROCESS"),null));
 		}catch(NotFoundException err) {
 			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al eliminar Producto ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_EXCEPTION"),responseExp));
 		}
 	}
 }

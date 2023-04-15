@@ -35,12 +35,12 @@ public class ListaDetalleController {
 	
 	@GetMapping()
 	public ResponseEntity<ResponseModel<?>> getListasDetalle(){
-		return ResponseEntity.ok(new ResponseModel<ArrayList<ListaDetalle>>("OK","Se ha listado correctamente", this.listaDetalleService.getListasDetalle()));
+		return ResponseEntity.ok(new ResponseModel<ArrayList<ListaDetalle>>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"), this.listaDetalleService.getListasDetalle()));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ResponseModel<?>> getListaDetalle(@PathVariable Long id) {
-		return ResponseEntity.ok(new ResponseModel<ListaDetalle>("OK","Se ha encontrado el registro", listaDetalleService.getListaDetalle(id)));
+		return ResponseEntity.ok(new ResponseModel<ListaDetalle>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"), listaDetalleService.getListaDetalle(id)));
 	}
 	
 	@PostMapping()
@@ -54,13 +54,13 @@ public class ListaDetalleController {
 			boolean valueListaCompra = listaDetalleService.verificateSellList(listaDetalleToSave);			
 			if(!valueListaCompra) 
 				throw new NotFoundException(listaDetalleToSave.getListaCompra(),listaDetalleToSave.getListaCompra().getId());
-			ListaDetalle newVar = this.listaDetalleService.loadListaDetalle(listaDetalleToSave);
-			return ResponseEntity.ok(new ResponseModel<ListaDetalle>("OK","Se ha cargado Correctamente",newVar));
+			ListaDetalle toSaveListaDetalle = this.listaDetalleService.loadListaDetalle(listaDetalleToSave);
+			return ResponseEntity.ok(new ResponseModel<ListaDetalle>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveListaDetalle));
 						
 		}catch( NotFoundException err) {
 			_log.error(" Error at trying to load ListaDetalle: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar ListaDetalle ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_ADD"),responseExp));
 		} 
 				
 	}
@@ -78,13 +78,13 @@ public class ListaDetalleController {
 			if(!valueListaCompra) 
 				throw new NotFoundException(listaDetalleToSave.getListaCompra(),listaDetalleToSave.getListaCompra().getId());
 			
-			ListaDetalle newVar = this.listaDetalleService.loadListaDetalle(listaDetalleToSave);
-			return ResponseEntity.ok(new ResponseModel<ListaDetalle>("OK","Se ha cargado Correctamente",newVar));
+			ListaDetalle toSaveListaDetalle = this.listaDetalleService.loadListaDetalle(listaDetalleToSave);
+			return ResponseEntity.ok(new ResponseModel<ListaDetalle>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveListaDetalle));
 			
 		}catch( NotFoundException err) {
-			_log.error(" Error at trying to update Cliente: "+err.getMessage());
+			_log.error(" Error at trying to update Lista Detalle: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al actualizar ListaDetalle ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_UPDATE"),responseExp));
 		}
 		
 	}
@@ -92,16 +92,16 @@ public class ListaDetalleController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ResponseModel<?>> deleteListaDetalle(@PathVariable(value = "id") Long id ){
 		try {
-			int varToCheck = listaDetalleService.deleteProducto(id);
+			int varToCheck = listaDetalleService.deleteListaDetalle(id);
 			_log.info(" Result at trying to delete : "+varToCheck);
 			if(varToCheck > 0)
-				return ResponseEntity.ok(new ResponseModel<Object>("OK","Se ha eliminado Correctamente",null));
+				return ResponseEntity.ok(new ResponseModel<Object>(Constants._OK,Constants.BUSINESS_MSG.get("DELETE"),null));
 			else
-				return ResponseEntity.internalServerError().body(new ResponseModel<Object>("Error","No Se ha eliminado Correctamente",null));
+				return ResponseEntity.internalServerError().body(new ResponseModel<Object>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_PROCESS"),null));
 		}catch(NotFoundException err) {
-			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
+			_log.error(" Error at trying to Detele Lista Detalle: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al eliminar ListaDetalle ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_EXCEPTION"),responseExp));
 		}
 	}	
 }

@@ -35,12 +35,12 @@ public class ListaCompraController {
 	
 	@GetMapping()
 	public ResponseEntity<ResponseModel<?>> getListasCompra(){
-		return ResponseEntity.ok(new ResponseModel<ArrayList<ListaCompra>>("OK","Se ha listado correctamente",this.listaCompraService.getListasCompras()));
+		return ResponseEntity.ok(new ResponseModel<ArrayList<ListaCompra>>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"),this.listaCompraService.getListasCompras()));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ResponseModel<?>> getListaCompra(@PathVariable Long id) {
-		return ResponseEntity.ok(new ResponseModel<ListaCompra>("OK","Se ha listado correctamente",listaCompraService.getListaCompra(id)));		
+		return ResponseEntity.ok(new ResponseModel<ListaCompra>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"),listaCompraService.getListaCompra(id)));		
 	}
 	
 	@PostMapping()
@@ -51,11 +51,11 @@ public class ListaCompraController {
 			if(!valueClient) 
 				throw new NotFoundException(listaCompraToSave.getCliente(), listaCompraToSave.getCliente().getId());
 			ListaCompra toSaveListaCompra = listaCompraService.loadListaCompra(listaCompraToSave);
-			return ResponseEntity.ok(new ResponseModel<ListaCompra>("OK","Se ha cargado Correctamente",toSaveListaCompra));
+			return ResponseEntity.ok(new ResponseModel<ListaCompra>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveListaCompra));
 		}catch(NotFoundException err) {
 			_log.error(" Error at trying to load ListaCompra: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar Lista compra ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_ADD"),responseExp));
 		}
 	}
 	
@@ -69,28 +69,28 @@ public class ListaCompraController {
 				throw new NotFoundException(listaCompraToSave.getCliente(), listaCompraToSave.getCliente().getId());
 			
 			final  ListaCompra toSaveListaCompra = this.listaCompraService.loadListaCompra(listaCompraToSave);
-			return ResponseEntity.ok(new ResponseModel<ListaCompra>("OK","Se ha cargado Correctamente",toSaveListaCompra));
+			return ResponseEntity.ok(new ResponseModel<ListaCompra>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveListaCompra));
 			
 		}catch(NotFoundException err) {
-			_log.error(" Error at trying to update Cliente: "+err.getMessage());
+			_log.error(" Error at trying to update Lista Compra: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al actualizar ListaCompra ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_UPDATE"),responseExp));
 		}
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ResponseModel<?>> deleteListaCompra(@PathVariable(value = "id") Long id ){
 		try {
-			int varToCheck = listaCompraService.deleteProducto(id);
+			int varToCheck = listaCompraService.deleteListaCompra(id);
 			_log.info(" Result at trying to delete : "+varToCheck);
 			if(varToCheck > 0)
-				return ResponseEntity.ok(new ResponseModel<Object>("OK","Se ha eliminado Correctamente",null));
+				return ResponseEntity.ok(new ResponseModel<Object>(Constants._OK,Constants.BUSINESS_MSG.get("DELETE"),null));
 			else
-				return ResponseEntity.internalServerError().body(new ResponseModel<Object>("Error","No Se ha eliminado Correctamente",null));
+				return ResponseEntity.internalServerError().body(new ResponseModel<Object>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_PROCESS"),null));
 		}catch(NotFoundException err) {
-			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
+			_log.error(" Error at trying to Detele Lista compra: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al eliminar ListaCompra ",responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_EXCEPTION"),responseExp));
 		}
 	}
 }
