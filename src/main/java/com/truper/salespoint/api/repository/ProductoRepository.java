@@ -9,18 +9,18 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.truper.salespoint.api.exception.NotFoundException;
-import com.truper.salespoint.api.model.Cliente;
+import com.truper.salespoint.api.model.Producto;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Long>{
+public interface ProductoRepository extends JpaRepository<Producto, Long>{
 	
-	ArrayList<Cliente> findAllClean();
+	ArrayList<Producto> findAllClean();
 	
-	@Query("SELECT c FROM Cliente c WHERE c.id = :id AND c.activo = true ")
-	Cliente findByIdExistance(@Param("id") Long id) throws NotFoundException;
+	@Query("SELECT p FROM Producto p WHERE p.id = :id AND p.activo = true ")
+	Producto findByIdExistance(@Param("id") Long id) throws NotFoundException;
 	
 	@Modifying(clearAutomatically = true)
-	@Query("UPDATE Cliente c SET c.activo = false WHERE c.id = :id ")
+	@Query("UPDATE Producto p SET p.activo = false WHERE p.id = :id ")
 	int logicDelete(@Param("id") Long id) throws NotFoundException;
 	
 }

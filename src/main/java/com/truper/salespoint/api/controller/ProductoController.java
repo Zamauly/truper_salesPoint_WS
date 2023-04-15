@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,74 +18,72 @@ import org.springframework.web.bind.annotation.RestController;
 import com.truper.salespoint.api.commons.Constants;
 import com.truper.salespoint.api.exception.NotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
-import com.truper.salespoint.api.model.Cliente;
+import com.truper.salespoint.api.model.Producto;
 import com.truper.salespoint.api.payload.request.RequestModel;
 import com.truper.salespoint.api.payload.response.ResponseModel;
-import com.truper.salespoint.api.service.ClienteService;
+import com.truper.salespoint.api.service.ProductoService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/cliente")
-public class ClienteController {
+@RequestMapping("/api/producto")
+public class ProductoController {
 	@Autowired
-	ClienteService clienteService;
+	ProductoService productoService;
 	
-	private static final Logger _log = LoggerFactory.getLogger(ClienteController.class);
+	private static final Logger _log = LoggerFactory.getLogger(ProductoController.class);
 	
-	@GetMapping(produces = "application/json")
-	public ResponseEntity<ResponseModel<?>> getClientes(){
-		return ResponseEntity.ok(new ResponseModel<ArrayList<Cliente>>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"), this.clienteService.getClientes()));
+	@GetMapping()
+	public ResponseEntity<ResponseModel<?>> getProductos(){
+		return ResponseEntity.ok(new ResponseModel<ArrayList<Producto>>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"),this.productoService.getProductos()));
 	}
 	
-	@GetMapping(path="/{id}", produces = "application/json")
-	public ResponseEntity<ResponseModel<?>> getCliente(@PathVariable Long id) {
-		return ResponseEntity.ok(new ResponseModel<Cliente>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"), clienteService.getCliente(id)));		
+	@GetMapping("/{id}")
+	public ResponseEntity<ResponseModel<?>> getProducto(@PathVariable Long id) {
+		return ResponseEntity.ok(new ResponseModel<Producto>(Constants._OK,Constants.BUSINESS_MSG.get("FOUND"),productoService.getProducto(id)));		
 	}
 	
-	@PostMapping(produces = "application/json")
-	public ResponseEntity<ResponseModel<?>> loadCliente(@Valid @RequestBody RequestModel<Cliente> clienteRequest,  BindingResult bindingResult){
+	@PostMapping()
+	public ResponseEntity<ResponseModel<?>> loadProducto(@Valid @RequestBody RequestModel<Producto> productoRequest){
 		try {
-			
-			Cliente clienteToSave = clienteService.getValuedElement(clienteRequest.getData());
-			Cliente toSaveCliente = this.clienteService.loadCliente(clienteToSave);
-			return ResponseEntity.ok(new ResponseModel<Cliente>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveCliente));
+
+			Producto productoToSave = productoService.getValuedElement(productoRequest.getData());
+			final Producto toSaveProducto = this.productoService.loadProducto(productoToSave);
+			return ResponseEntity.ok(new ResponseModel<Producto>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveProducto));
 			
 		}catch(NotFoundException err) {
-			_log.error(" Error at trying to load Cliente: "+err.getMessage());
+			_log.error(" Error at trying to load Prodcuto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_ADD"),responseExp));
 		}
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ResponseModel<?>> updateCliente(@PathVariable(value = "id") Long id, @Valid @RequestBody RequestModel<Cliente> clienteRequest){
+	public ResponseEntity<ResponseModel<?>> updateProducto(@PathVariable(value = "id") Long id, @Valid @RequestBody RequestModel<Producto> productoRequest){
 		try {
-			clienteRequest.getData().setId(id);
-			Cliente clienteToSave = clienteService.getValuedElement(clienteRequest.getData());
-			final  Cliente toSaveCliente = this.clienteService.loadCliente(clienteToSave);
-			return ResponseEntity.ok(new ResponseModel<Cliente>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveCliente));
+			productoRequest.getData().setId(id);
+			Producto productoToSave = productoService.getValuedElement(productoRequest.getData());
+			final  Producto toSaveProducto = this.productoService.loadProducto(productoToSave);
+			return ResponseEntity.ok(new ResponseModel<Producto>(Constants._OK,Constants.BUSINESS_MSG.get("LOAD"),toSaveProducto));
 			
 		}catch(NotFoundException err) {
-			_log.error(" Error at trying to update Cliente: "+err.getMessage());
+			_log.error(" Error at trying to update Producto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
-			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_UPDATE"), responseExp));
+			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_UPDATE"),responseExp));
 		}
-		
 	}
-
+	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ResponseModel<?>> deleteCliente(@PathVariable(value = "id") Long id ){
+	public ResponseEntity<ResponseModel<?>> deleteProducto(@PathVariable(value = "id") Long id ){
 		try {
-			int varToCheck = clienteService.deleteCliente(id);
+			int varToCheck = productoService.deleteProducto(id);
 			_log.info(" Result at trying to delete : "+varToCheck);
 			if(varToCheck > 0)
 				return ResponseEntity.ok(new ResponseModel<Object>(Constants._OK,Constants.BUSINESS_MSG.get("DELETE"),null));
 			else
 				return ResponseEntity.internalServerError().body(new ResponseModel<Object>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_PROCESS"),null));
-			
 		}catch(NotFoundException err) {
-			_log.error(" Error at trying to Detele Cliente: "+err.getMessage());
+			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>(Constants._ERROR,Constants.BUSINESS_EXCEPTIONS_MSG.get("NOT_DELETE_EXCEPTION"),responseExp));
 		}

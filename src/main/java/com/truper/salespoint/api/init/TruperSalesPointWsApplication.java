@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages={"com.truper.salespoint.api"})
-@EnableJpaRepositories("com.truper.salespoint.api.repository")
+@EnableJpaRepositories(basePackages = "com.truper.salespoint.api.repository")
 @EntityScan("com.truper.salespoint.api.model")
 @ComponentScan("com.truper.salespoint.api")
 public class TruperSalesPointWsApplication  extends SpringBootServletInitializer{

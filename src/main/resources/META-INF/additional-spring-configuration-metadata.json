@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "truper.salespoint.api.jwtExpirationMs",
+    "type": "java.lang.Integer",
+    "description": "Used to validate"
+  },
+  {
+    "name": "truper.salespoint.api.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'truper.salespoint.api.jwtSecret'"
+  }
+]}

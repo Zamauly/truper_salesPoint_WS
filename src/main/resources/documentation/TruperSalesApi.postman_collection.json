@@ -1,0 +1,579 @@
+{
+	"info": {
+		"_postman_id": "80bc7021-89d2-46fe-bb95-e27d8764f1d4",
+		"name": "TruperSalesApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13283824"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUpUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"aru dev\",\r\n    \"email\" : \"aru@dev.com\",\r\n    \"password\" : \"newpydafadeahh\",\r\n    \"role\" : [\"admin\",\"user\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LogInUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"aru dev\",\r\n    \"password\" : \"newpydafadeahh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetClientes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDExNjgwLCJleHAiOjE2ODE0OTgwODB9.iDjbArH7mNy9R9YWoSiFGqhofk-KIfpq08IMbrMRgIZGlt7TS-AxgBIzkONFKMkO-kbp5yBFs85MfeiaEoYtGQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostClientes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDExNjgwLCJleHAiOjE2ODE0OTgwODB9.iDjbArH7mNy9R9YWoSiFGqhofk-KIfpq08IMbrMRgIZGlt7TS-AxgBIzkONFKMkO-kbp5yBFs85MfeiaEoYtGQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sistemaOrigen\" : \"postman\",\r\n    \"data\" :{\r\n        \"nombre\": \"Paco Dev\",\r\n        \"prioridadId\":\"2\",\r\n        \"activo\": \"true\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutClientes",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDExNjgwLCJleHAiOjE2ODE0OTgwODB9.iDjbArH7mNy9R9YWoSiFGqhofk-KIfpq08IMbrMRgIZGlt7TS-AxgBIzkONFKMkO-kbp5yBFs85MfeiaEoYtGQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sistemaOrigen\" : \"postman\",\r\n    \"data\" :{\r\n        \"nombre\": \"Paco Dev0l\",\r\n        \"prioridadId\": 3,\r\n        \"activo\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cliente/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cliente",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCliente",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDExNjgwLCJleHAiOjE2ODE0OTgwODB9.iDjbArH7mNy9R9YWoSiFGqhofk-KIfpq08IMbrMRgIZGlt7TS-AxgBIzkONFKMkO-kbp5yBFs85MfeiaEoYtGQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/cliente/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cliente",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetProductos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/producto/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"producto",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostProductos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sistemaOrigen\" : \"postman\",\r\n    \"data\":{\r\n        \"clave\": \"TRP-0AF1E\",\r\n        \"descripcion\": \"Juego de Desarmadores multi usos con mango 5pzs\",\r\n        \"nombre\": \"Desarmadores Varios 5pzs\",\r\n        \"existencia\": \"3\",\r\n        \"activo\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/producto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"producto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutProductos",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sistemaOrigen\" : \"postman\",\r\n    \"data\":{\r\n        \"clave\": \"TRP-0AF3F\",\r\n        \"descripcion\": \"Juego de Desarmadores multi usos con mango 5pzs\",\r\n        \"nombre\": \"Desarmadores Varios 5pzs\",\r\n        \"existencia\": 10,\r\n        \"activo\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/producto/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"producto",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteProducto",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/producto/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"producto",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetListaCompra",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/lista-compra",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"lista-compra"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostListaCompra",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sistemaOrigen\": \"postman\",\r\n    \"data\": {\r\n        \"cliente\": {\r\n            \"id\": 2\r\n        },\r\n        \"nombre\": true,\r\n        \"consideraciones\": \"Entregar a encargado en tienda \\\"Cosme Fulanito\\\"\",\r\n        \"fechaRegistro\": \"2023-04-03\",\r\n        \"fechaActuliza\": \"2023-04-03\",\r\n        \"activo\": \"true\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/lista-compra",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"lista-compra"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutListaCompra",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sistemaOrigen\": \"postman\",\r\n    \"data\": {\r\n        \"cliente\": {\r\n            \"id\": 1\r\n        },\r\n        \"nombre\": \"Lista Semanal\",\r\n        \"consideraciones\": \"Entregar a encargado en tienda \\\"Cosme None\\\"\",\r\n        \"fechaRegistro\": \"2023-04-03\",\r\n        \"fechaActuliza\": \"2023-04-03\",\r\n        \"activo\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/lista-compra/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"lista-compra",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteListaCompra",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/lista-compra/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"lista-compra",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetListaDetalle",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/lista-detalle",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"lista-detalle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostListaDetalle",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sistemaOrigen\": \"postman\",\r\n    \"data\": {\r\n        \"listaCompra\": {\r\n            \"id\": 3\r\n        },\r\n        \"producto\": {\r\n            \"id\": 2\r\n        },\r\n        \"fechaRegistro\": \"2023-04-04\",\r\n        \"fechaActuliza\": \"2023-04-04\",\r\n        \"activo\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/lista-detalle",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"lista-detalle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutListaDetalle",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sistemaOrigen\": \"postman\",\r\n    \"data\": {\r\n        \"listaCompra\": {\r\n            \"id\": 3\r\n        },\r\n        \"producto\": {\r\n            \"id\": 1\r\n        },\r\n        \"cantidad\": 10,\r\n        \"fechaRegistro\": \"2023-04-01\",\r\n        \"fechaActuliza\": \"2023-04-01\",\r\n        \"activo\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/lista-detalle/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"lista-detalle",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteListaDetalle",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnUgZGV2IiwiaWF0IjoxNjgxNDEyMjgzLCJleHAiOjE2ODE0OTg2ODN9.o2PC1-arGvdk1N-GFYZILD8cp2hCkVjcFrdQ_ZnUYnI5xlGChvn_Ay9xl1Rucah-fj91S8tVOwGg6wR-5p9hpw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/lista-detalle/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"lista-detalle",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
