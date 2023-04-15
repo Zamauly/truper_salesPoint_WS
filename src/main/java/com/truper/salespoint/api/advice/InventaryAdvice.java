@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.truper.salespoint.api.exception.InventaryException;
 import com.truper.salespoint.api.exception.ResponseException;
-import com.truper.salespoint.api.service.ResponseModel;
+import com.truper.salespoint.api.payload.response.ResponseModel;
 import com.truper.salespoint.api.commons.Constants;
 
 @RestControllerAdvice

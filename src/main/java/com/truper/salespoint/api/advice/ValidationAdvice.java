@@ -13,7 +13,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.truper.salespoint.api.exception.ResponseException;
-import com.truper.salespoint.api.service.ResponseModel;
+import com.truper.salespoint.api.payload.response.ResponseModel;
 import com.truper.salespoint.api.commons.Constants;
 
 import jakarta.validation.ConstraintViolationException;

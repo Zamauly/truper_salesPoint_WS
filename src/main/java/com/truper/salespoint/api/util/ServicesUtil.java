@@ -1,4 +1,4 @@
-package com.truper.salespoint.api.service;
+package com.truper.salespoint.api.util;
 
 import java.lang.reflect.Field;
 

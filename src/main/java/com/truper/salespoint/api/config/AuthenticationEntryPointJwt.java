@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.truper.salespoint.api.commons.Constants;
 import com.truper.salespoint.api.exception.ResponseException;
-import com.truper.salespoint.api.service.ResponseModel;
+import com.truper.salespoint.api.payload.response.ResponseModel;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

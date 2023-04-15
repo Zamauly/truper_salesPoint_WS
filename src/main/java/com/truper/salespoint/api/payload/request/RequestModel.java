@@ -1,4 +1,4 @@
-package com.truper.salespoint.api.service;
+package com.truper.salespoint.api.payload.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

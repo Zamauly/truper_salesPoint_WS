@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.truper.salespoint.api.commons.Constants;
-import com.truper.salespoint.api.exception.ListaCompraNotFoundException;
-import com.truper.salespoint.api.exception.ListaDetalleNotFoundException;
-import com.truper.salespoint.api.exception.ProductoNotFoundException;
+import com.truper.salespoint.api.exception.NotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.ListaDetalle;
+import com.truper.salespoint.api.payload.request.RequestModel;
+import com.truper.salespoint.api.payload.response.ResponseModel;
 import com.truper.salespoint.api.service.ListaDetalleService;
-import com.truper.salespoint.api.service.RequestModel;
-import com.truper.salespoint.api.service.ResponseModel;
 
 import jakarta.validation.Valid;
 
@@ -51,15 +49,15 @@ public class ListaDetalleController {
 			ListaDetalle listaDetalleToSave = listaDetalleService.getValuedElement(listaDetalleRequest.getData());
 			boolean valueProduct = listaDetalleService.verificateProduct(listaDetalleToSave);
 			if(!valueProduct) 
-				throw new ProductoNotFoundException(listaDetalleToSave.getProducto().getId());
+				throw new NotFoundException(listaDetalleToSave.getProducto(),listaDetalleToSave.getProducto().getId());
 			
 			boolean valueListaCompra = listaDetalleService.verificateSellList(listaDetalleToSave);			
 			if(!valueListaCompra) 
-				throw new ListaCompraNotFoundException(listaDetalleToSave.getListaCompra().getId());
+				throw new NotFoundException(listaDetalleToSave.getListaCompra(),listaDetalleToSave.getListaCompra().getId());
 			ListaDetalle newVar = this.listaDetalleService.loadListaDetalle(listaDetalleToSave);
 			return ResponseEntity.ok(new ResponseModel<ListaDetalle>("OK","Se ha cargado Correctamente",newVar));
 						
-		}catch( ListaDetalleNotFoundException | ListaCompraNotFoundException | ProductoNotFoundException err) {
+		}catch( NotFoundException err) {
 			_log.error(" Error at trying to load ListaDetalle: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar ListaDetalle ",responseExp));
@@ -74,16 +72,16 @@ public class ListaDetalleController {
 			ListaDetalle listaDetalleToSave = listaDetalleService.getValuedElement(listaDetalleRequest.getData());
 			boolean valueProduct = listaDetalleService.verificateProduct(listaDetalleToSave);
 			if(!valueProduct) 
-				throw new ProductoNotFoundException(listaDetalleToSave.getProducto().getId());
+				throw new NotFoundException(listaDetalleToSave.getProducto(),listaDetalleToSave.getProducto().getId());
 			
 			boolean valueListaCompra = listaDetalleService.verificateSellList(listaDetalleToSave);			
 			if(!valueListaCompra) 
-				throw new ListaCompraNotFoundException(listaDetalleToSave.getListaCompra().getId());
+				throw new NotFoundException(listaDetalleToSave.getListaCompra(),listaDetalleToSave.getListaCompra().getId());
 			
 			ListaDetalle newVar = this.listaDetalleService.loadListaDetalle(listaDetalleToSave);
 			return ResponseEntity.ok(new ResponseModel<ListaDetalle>("OK","Se ha cargado Correctamente",newVar));
 			
-		}catch( ListaDetalleNotFoundException | ListaCompraNotFoundException | ProductoNotFoundException err) {
+		}catch( NotFoundException err) {
 			_log.error(" Error at trying to update Cliente: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al actualizar ListaDetalle ",responseExp));
@@ -100,7 +98,7 @@ public class ListaDetalleController {
 				return ResponseEntity.ok(new ResponseModel<Object>("OK","Se ha eliminado Correctamente",null));
 			else
 				return ResponseEntity.internalServerError().body(new ResponseModel<Object>("Error","No Se ha eliminado Correctamente",null));
-		}catch(ListaDetalleNotFoundException err) {
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al eliminar ListaDetalle ",responseExp));

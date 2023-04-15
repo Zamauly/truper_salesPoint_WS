@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.truper.salespoint.api.commons.Constants;
-import com.truper.salespoint.api.exception.ClienteNotFoundException;
-import com.truper.salespoint.api.exception.ListaCompraNotFoundException;
+import com.truper.salespoint.api.exception.NotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.ListaCompra;
+import com.truper.salespoint.api.payload.request.RequestModel;
+import com.truper.salespoint.api.payload.response.ResponseModel;
 import com.truper.salespoint.api.service.ListaCompraService;
-import com.truper.salespoint.api.service.RequestModel;
-import com.truper.salespoint.api.service.ResponseModel;
 
 import jakarta.validation.Valid;
 
@@ -50,10 +49,10 @@ public class ListaCompraController {
 			ListaCompra listaCompraToSave = listaCompraService.getValuedElement(listaCompraRequest.getData());
 			boolean valueClient = listaCompraService.verificateClient(listaCompraToSave);
 			if(!valueClient) 
-				throw new ClienteNotFoundException(listaCompraToSave.getCliente().getId());
+				throw new NotFoundException(listaCompraToSave.getCliente(), listaCompraToSave.getCliente().getId());
 			ListaCompra toSaveListaCompra = listaCompraService.loadListaCompra(listaCompraToSave);
 			return ResponseEntity.ok(new ResponseModel<ListaCompra>("OK","Se ha cargado Correctamente",toSaveListaCompra));
-		}catch(ListaCompraNotFoundException err) {
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to load ListaCompra: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar Lista compra ",responseExp));
@@ -64,11 +63,15 @@ public class ListaCompraController {
 	public ResponseEntity<ResponseModel<?>> updateListacompra(@PathVariable(value = "id") Long id, @Valid @RequestBody RequestModel<ListaCompra> listaCompraRequest){
 		try {
 			listaCompraRequest.getData().setId(id);
-			ListaCompra productoToSave = listaCompraService.getValuedElement(listaCompraRequest.getData());
-			final  ListaCompra toSaveProducto = this.listaCompraService.loadListaCompra(productoToSave);
-			return ResponseEntity.ok(new ResponseModel<ListaCompra>("OK","Se ha cargado Correctamente",toSaveProducto));
+			ListaCompra listaCompraToSave = listaCompraService.getValuedElement(listaCompraRequest.getData());
+			boolean valueClient = listaCompraService.verificateClient(listaCompraToSave);
+			if(!valueClient) 
+				throw new NotFoundException(listaCompraToSave.getCliente(), listaCompraToSave.getCliente().getId());
 			
-		}catch(ListaCompraNotFoundException err) {
+			final  ListaCompra toSaveListaCompra = this.listaCompraService.loadListaCompra(listaCompraToSave);
+			return ResponseEntity.ok(new ResponseModel<ListaCompra>("OK","Se ha cargado Correctamente",toSaveListaCompra));
+			
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to update Cliente: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al actualizar ListaCompra ",responseExp));
@@ -84,7 +87,7 @@ public class ListaCompraController {
 				return ResponseEntity.ok(new ResponseModel<Object>("OK","Se ha eliminado Correctamente",null));
 			else
 				return ResponseEntity.internalServerError().body(new ResponseModel<Object>("Error","No Se ha eliminado Correctamente",null));
-		}catch(ListaCompraNotFoundException err) {
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al eliminar ListaCompra ",responseExp));

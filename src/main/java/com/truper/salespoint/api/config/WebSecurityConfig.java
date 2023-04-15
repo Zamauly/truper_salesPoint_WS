@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.truper.salespoint.api.commons.Constants;
 import com.truper.salespoint.api.filter.AuthenticationTokenFilter;
 import com.truper.salespoint.api.service.system.ActiveUserDetailsServiceImpl;
 
@@ -20,6 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.truper.salespoint.api.commons.Constants;
 
 @Configuration
 @EnableGlobalMethodSecurity(
@@ -28,8 +30,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 	    prePostEnabled = true)
 public class WebSecurityConfig {
 
-	public static final AntPathRequestMatcher[] WHITE_LIST_URLS = {new AntPathRequestMatcher("/api/test/**"),new AntPathRequestMatcher("/api/auth/**")};
-	public static final AntPathRequestMatcher[] IGNORE_LIST_URLS = {new AntPathRequestMatcher("/h2-console/**"),new AntPathRequestMatcher("/js/***"),new AntPathRequestMatcher("/images/***")};
+	public static final AntPathRequestMatcher[] WHITE_LIST_URLS = {new AntPathRequestMatcher(Constants.ALLOWED_PATHS.get("TEST")),
+																														new AntPathRequestMatcher(Constants.ALLOWED_PATHS.get("AUTH"))};
+	
+	public static final AntPathRequestMatcher[] IGNORE_LIST_URLS = {new AntPathRequestMatcher(Constants.ALLOWED_PATHS.get("H2_CONSOLE")),
+																														new AntPathRequestMatcher(Constants.ALLOWED_PATHS.get("JS")),
+																														new AntPathRequestMatcher(Constants.ALLOWED_PATHS.get("IMAGES"))};
 	
 	  @Autowired
 	  ActiveUserDetailsServiceImpl userDetailsService;

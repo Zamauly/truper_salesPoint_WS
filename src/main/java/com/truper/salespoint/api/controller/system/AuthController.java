@@ -25,7 +25,6 @@ import com.truper.salespoint.api.payload.response.*;
 import com.truper.salespoint.api.repository.system.ActiveUserRepository;
 import com.truper.salespoint.api.repository.system.RoleRepository;
 import com.truper.salespoint.api.util.JwtUtils;
-import com.truper.salespoint.api.service.ResponseModel;
 import com.truper.salespoint.api.service.system.ActiveUserDetails;
 import com.truper.salespoint.api.model.system.*;
 import com.truper.salespoint.api.commons.Constants;

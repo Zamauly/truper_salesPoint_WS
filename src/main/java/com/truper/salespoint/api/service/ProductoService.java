@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.truper.salespoint.api.exception.ProductoNotFoundException;
+import com.truper.salespoint.api.exception.NotFoundException;
 import com.truper.salespoint.api.exception.InventaryException;
 import com.truper.salespoint.api.model.Producto;
 import com.truper.salespoint.api.repository.ProductoRepository;
+import com.truper.salespoint.api.util.ServicesUtil;
 
 import jakarta.transaction.Transactional;
 
@@ -24,7 +25,7 @@ public class ProductoService {
 	public Producto getProducto(Long id) {
 		Producto productToSearch = productoRepository.findByIdExistance(id);
 		if (productToSearch == null)
-			throw new ProductoNotFoundException(id);
+			throw new NotFoundException(new Producto(), id);
 		else if (productToSearch.getExistencia() < 1)
 			throw new InventaryException(productToSearch.getNombre(), productToSearch.getExistencia());
 		else

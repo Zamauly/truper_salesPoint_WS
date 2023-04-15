@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.truper.salespoint.api.exception.ListaDetalleNotFoundException;
+import com.truper.salespoint.api.exception.NotFoundException;
 import com.truper.salespoint.api.model.ListaCompra;
 import com.truper.salespoint.api.model.ListaDetalle;
 import com.truper.salespoint.api.model.Producto;
 import com.truper.salespoint.api.repository.ListaDetalleRepository;
+import com.truper.salespoint.api.util.ServicesUtil;
 
 import jakarta.transaction.Transactional;
 
@@ -30,7 +31,7 @@ public class ListaDetalleService {
 	public ListaDetalle getListaDetalle(Long id){
 		ListaDetalle listaDetalleToSearch = listaDetalleRepository.findByIdAndActive(id);
 		if(listaDetalleToSearch == null)
-			throw new ListaDetalleNotFoundException(id);
+			throw new NotFoundException(new ListaDetalle(), 	id);
 		else
 			return listaDetalleToSearch;
 		

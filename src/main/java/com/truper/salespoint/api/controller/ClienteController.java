@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-/*import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;*/
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.truper.salespoint.api.commons.Constants;
-import com.truper.salespoint.api.exception.ClienteNotFoundException;
+import com.truper.salespoint.api.exception.NotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.Cliente;
+import com.truper.salespoint.api.payload.request.RequestModel;
+import com.truper.salespoint.api.payload.response.ResponseModel;
 import com.truper.salespoint.api.service.ClienteService;
-import com.truper.salespoint.api.service.RequestModel;
-import com.truper.salespoint.api.service.ResponseModel;
 
 import jakarta.validation.Valid;
 
@@ -54,7 +52,7 @@ public class ClienteController {
 			Cliente toSaveCliente = this.clienteService.loadCliente(clienteToSave);
 			return ResponseEntity.ok(new ResponseModel<Cliente>("OK","Se ha cargado Correctamente",toSaveCliente));
 			
-		}catch(ClienteNotFoundException err) {
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to load Cliente: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar Cliente ",responseExp));
@@ -69,7 +67,7 @@ public class ClienteController {
 			final  Cliente toSaveProducto = this.clienteService.loadCliente(productoToSave);
 			return ResponseEntity.ok(new ResponseModel<Cliente>("OK","Se ha cargado Correctamente",toSaveProducto));
 			
-		}catch(ClienteNotFoundException err) {
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to update Cliente: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al actualizar Producto ",responseExp));
@@ -86,7 +84,8 @@ public class ClienteController {
 				return ResponseEntity.ok(new ResponseModel<Object>("OK","Se ha eliminado Correctamente",null));
 			else
 				return ResponseEntity.internalServerError().body(new ResponseModel<Object>("Error","No Se ha eliminado Correctamente",null));
-		}catch(ClienteNotFoundException err) {
+			
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al eliminar Cliente ",responseExp));

@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.truper.salespoint.api.exception.ClienteNotFoundException;
+import com.truper.salespoint.api.exception.NotFoundException;
 import com.truper.salespoint.api.model.Cliente;
 import com.truper.salespoint.api.repository.ClienteRepository;
+import com.truper.salespoint.api.util.ServicesUtil;
 
 import jakarta.transaction.Transactional;
 
@@ -23,7 +24,7 @@ public class ClienteService {
 	public Cliente getCliente(Long id){
 		Cliente clienteToSearch = clienteRepository.findByIdExistance(id);
 		if(clienteToSearch == null)
-			throw new ClienteNotFoundException(id);
+			throw new NotFoundException(new Cliente(), id);
 		else
 			return clienteToSearch;
 		

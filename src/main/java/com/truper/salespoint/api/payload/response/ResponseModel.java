@@ -1,4 +1,4 @@
-package com.truper.salespoint.api.service;
+package com.truper.salespoint.api.payload.response;
 
 public class ResponseModel<T> {
 	public String result;

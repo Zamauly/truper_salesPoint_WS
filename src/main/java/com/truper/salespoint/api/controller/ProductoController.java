@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.truper.salespoint.api.commons.Constants;
-import com.truper.salespoint.api.exception.ProductoNotFoundException;
+import com.truper.salespoint.api.exception.NotFoundException;
 import com.truper.salespoint.api.exception.ResponseException;
 import com.truper.salespoint.api.model.Producto;
+import com.truper.salespoint.api.payload.request.RequestModel;
+import com.truper.salespoint.api.payload.response.ResponseModel;
 import com.truper.salespoint.api.service.ProductoService;
-import com.truper.salespoint.api.service.RequestModel;
-import com.truper.salespoint.api.service.ResponseModel;
 
 import jakarta.validation.Valid;
 
@@ -51,7 +51,7 @@ public class ProductoController {
 			final Producto toSaveProducto = this.productoService.loadProducto(productoToSave);
 			return ResponseEntity.ok(new ResponseModel<Producto>("OK","Se ha cargado Correctamente",toSaveProducto));
 			
-		}catch(ProductoNotFoundException err) {
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to load Prodcuto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al cargar Producto ",responseExp));
@@ -66,7 +66,7 @@ public class ProductoController {
 			final  Producto toSaveProducto = this.productoService.loadProducto(productoToSave);
 			return ResponseEntity.ok(new ResponseModel<Producto>("OK","Se ha cargado Correctamente",toSaveProducto));
 			
-		}catch(ProductoNotFoundException err) {
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to update Cliente: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al actualizar Producto ",responseExp));
@@ -82,7 +82,7 @@ public class ProductoController {
 				return ResponseEntity.ok(new ResponseModel<Object>("OK","Se ha eliminado Correctamente",null));
 			else
 				return ResponseEntity.internalServerError().body(new ResponseModel<Object>("Error","No Se ha eliminado Correctamente",null));
-		}catch(ProductoNotFoundException err) {
+		}catch(NotFoundException err) {
 			_log.error(" Error at trying to Detele Producto: "+err.getMessage());
 			ResponseException responseExp = new ResponseException(Constants.validateException(err.getClass().getName()),err.getMessage());
 			return ResponseEntity.status(404).body(new ResponseModel<ResponseException>("ERROR"," Error al eliminar Producto ",responseExp));
